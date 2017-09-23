@@ -18,6 +18,7 @@ import acr.browser.lightning.browser.activity.BrowserActivity;
 @SuppressWarnings("deprecation")
 public class MainActivity extends BrowserActivity {
 
+    
     @NonNull
     @Override
     public Completable updateCookiePreference() {
