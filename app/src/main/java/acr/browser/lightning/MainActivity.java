@@ -18,7 +18,7 @@ import acr.browser.lightning.browser.activity.BrowserActivity;
 @SuppressWarnings("deprecation")
 public class MainActivity extends BrowserActivity {
 
-    
+
     @NonNull
     @Override
     public Completable updateCookiePreference() {
@@ -35,7 +35,7 @@ public class MainActivity extends BrowserActivity {
         });
     }
 
-    
+
     @Override
     public boolean onCreateOptionsMenu(@NonNull Menu menu) {
         getMenuInflater().inflate(R.menu.main, menu);
@@ -55,7 +55,7 @@ public class MainActivity extends BrowserActivity {
     @Override
     protected void onPause() {
         super.onPause();
-        saveOpenTabs();
+        //saveOpenTabs();
     }
 
     @Override
@@ -85,7 +85,7 @@ public class MainActivity extends BrowserActivity {
             switch (event.getKeyCode()) {
                 case KeyEvent.KEYCODE_P:
                     // Open a new private window
-                    if(event.isShiftPressed()) {
+                    if (event.isShiftPressed()) {
                         startActivity(new Intent(this, IncognitoActivity.class));
                         overridePendingTransition(R.anim.slide_up_in, R.anim.fade_out_scale);
                         return true;
