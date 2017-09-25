@@ -54,7 +54,6 @@ public class MainActivity extends BrowserActivity {
     @Override
     protected void onPause() {
         super.onPause();
-
         saveOpenTabs();
     }
 
