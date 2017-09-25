@@ -35,7 +35,6 @@ public class MainActivity extends BrowserActivity {
         });
     }
 
-
     @Override
     public boolean onCreateOptionsMenu(@NonNull Menu menu) {
         getMenuInflater().inflate(R.menu.main, menu);
