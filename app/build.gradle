@@ -112,4 +112,34 @@ dependencies {
 
     // Kotlin
     compile "org.jetbrains.kotlin:kotlin-stdlib-jre7:$kotlin_version"
+
+    //-------------- ADDS DEPENDENCIES / MOPUB
+
+    compile 'com.mopub:mopub-sdk:4.16.1'
+/*
+    // For banners
+    compile('com.mopub:mopub-sdk-banner:4.16.0@aar') {
+        transitive = true
+    }
+
+    // For interstitials
+    compile('com.mopub:mopub-sdk-interstitial:4.16.0@aar') {
+        transitive = true
+    }
+
+    // For rewarded videos. This will automatically also include interstitials
+    compile('com.mopub:mopub-sdk-rewardedvideo:4.16.0@aar') {
+        transitive = true
+    }
+
+    // For native static (images).
+    compile('com.mopub:mopub-sdk-native-static:4.16.0@aar') {
+        transitive = true
+    }
+
+    // For native video. This will automatically also include native static
+    compile('com.mopub:mopub-sdk-native-video:4.16.0@aar') {
+        transitive = true
+    }
+*/
 }

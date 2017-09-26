@@ -83,6 +83,7 @@ import com.anthonycr.bonsai.Schedulers;
 import com.anthonycr.bonsai.SingleOnSubscribe;
 import com.anthonycr.grant.PermissionsManager;
 import com.anthonycr.progress.AnimatedProgressBar;
+import com.mopub.mobileads.MoPubView;
 
 import java.io.File;
 import java.io.IOException;
@@ -230,12 +231,18 @@ public abstract class BrowserActivity extends ThemableBrowserActivity implements
     @NonNull
     protected abstract Completable updateCookiePreference();
 
+    private MoPubView moPubView;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         BrowserApp.getAppComponent().inject(this);
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
+
+        moPubView = (MoPubView) findViewById(R.id.adview);
+        moPubView.setAdUnitId("252412d5e9364a05ab77d9396346d73d"); // Enter your Ad Unit ID from www.mopub.com
+        moPubView.loadAd();
 
         mTabsManager = new TabsManager();
         mPresenter = new BrowserPresenter(this, isIncognito());
