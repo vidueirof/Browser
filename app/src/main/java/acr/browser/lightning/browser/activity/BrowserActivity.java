@@ -83,6 +83,7 @@ import com.anthonycr.bonsai.Schedulers;
 import com.anthonycr.bonsai.SingleOnSubscribe;
 import com.anthonycr.grant.PermissionsManager;
 import com.anthonycr.progress.AnimatedProgressBar;
+import com.mopub.mobileads.MoPubErrorCode;
 import com.mopub.mobileads.MoPubView;
 
 import java.io.File;
@@ -130,6 +131,7 @@ import acr.browser.lightning.view.LightningView;
 import acr.browser.lightning.view.SearchView;
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 
 public abstract class BrowserActivity extends ThemableBrowserActivity implements BrowserView, UIController, OnClickListener {
 
@@ -241,13 +243,23 @@ public abstract class BrowserActivity extends ThemableBrowserActivity implements
         ButterKnife.bind(this);
 
         moPubView = (MoPubView) findViewById(R.id.adview);
-        moPubView.setAdUnitId("252412d5e9364a05ab77d9396346d73d"); // Enter your Ad Unit ID from www.mopub.com
+        moPubView.setAdUnitId("a9ba1505f6354a5890e4102ebf8bcff8"); // Enter your Ad Unit ID from www.mopub.com
         moPubView.loadAd();
+        //b195f8dd8ded45fe847ad89ed1d016da
 
+        //moPubView.setAdUnitId("a9ba1505f6354a5890e4102ebf8bcff8"); //BANNER ROCK AND ROLL
+        //moPubView.setAdUnitId("b195f8dd8ded45fe847ad89ed1d016da"); // BANNER DE PRUEBA
+
+        /**
+        moPubView = (MoPubView) findViewById(R.id.adviewCustom);
+        moPubView.setAdUnitId("58ba90e111ac43819d94f4612b8c37f8");
+        moPubView.loadAd();
+         */
         mTabsManager = new TabsManager();
         mPresenter = new BrowserPresenter(this, isIncognito());
 
         initialize(savedInstanceState);
+
     }
 
     private synchronized void initialize(Bundle savedInstanceState) {
