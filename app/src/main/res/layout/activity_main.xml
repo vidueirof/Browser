@@ -59,13 +59,13 @@
         android:orientation="vertical">
 
         <ImageView
-            android:layout_marginTop="15dp"
             android:layout_width="55dp"
             android:layout_height="80dp"
             android:layout_gravity="top|start"
+            android:layout_marginTop="15dp"
             android:background="@color/gray_light"
-            android:src="@mipmap/ic_launcher"
-            android:clickable="true"/>
+            android:clickable="true"
+            android:src="@mipmap/ic_launcher" />
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -73,6 +73,28 @@
             android:background="@color/gray_light"
             android:orientation="vertical"
             android:visibility="visible">
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/recycler_view_horizontal"
+                android:layout_width="match_parent"
+                android:background="@color/error_red"
+                android:layout_height="200dp"
+                android:layout_marginEnd="20dp"
+                android:layout_marginStart="20dp"
+                android:layout_marginTop="50dp">
+
+            </android.support.v7.widget.RecyclerView>
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/recycler_view_vertical"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginEnd="20dp"
+                android:layout_marginStart="20dp"
+                android:layout_marginTop="50dp"
+                android:background="@color/black">
+
+            </android.support.v7.widget.RecyclerView>
 
             <com.mopub.mobileads.MoPubView
                 android:id="@+id/adview"
