@@ -38,6 +38,8 @@ import android.support.v4.widget.DrawerLayout.DrawerListener;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.graphics.Palette;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
 import android.util.Log;
@@ -88,10 +90,13 @@ import com.mopub.mobileads.MoPubView;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.inject.Inject;
 
 import acr.browser.lightning.R;
+import acr.browser.lightning.RecyclerViewHorizontalAdapter;
 import acr.browser.lightning.reading.activity.ReadingActivity;
 import acr.browser.lightning.browser.BookmarksView;
 import acr.browser.lightning.browser.BrowserPresenter;
@@ -151,6 +156,8 @@ public abstract class BrowserActivity extends ThemableBrowserActivity implements
     @BindView(R.id.toolbar_layout) ViewGroup mToolbarLayout;
     @BindView(R.id.progress_view) AnimatedProgressBar mProgressBar;
     @BindView(R.id.search_bar) RelativeLayout mSearchBar;
+    @BindView(R.id.recycler_view_horizontal) RecyclerView recyclerViewHorizontal;
+    @BindView(R.id.recycler_view_vertical) RecyclerView recyclerViewVertical;
 
     // Toolbar Views
     @BindView(R.id.toolbar) Toolbar mToolbar;
@@ -242,14 +249,7 @@ public abstract class BrowserActivity extends ThemableBrowserActivity implements
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
 
-        moPubView = (MoPubView) findViewById(R.id.adview);
-        moPubView.setAdUnitId("a9ba1505f6354a5890e4102ebf8bcff8"); // Enter your Ad Unit ID from www.mopub.com
-        moPubView.loadAd();
-        //b195f8dd8ded45fe847ad89ed1d016da
-
-        //moPubView.setAdUnitId("a9ba1505f6354a5890e4102ebf8bcff8"); //BANNER ROCK AND ROLL
-        //moPubView.setAdUnitId("b195f8dd8ded45fe847ad89ed1d016da"); // BANNER DE PRUEBA
-
+        loadHorizontalAds();
         /**
         moPubView = (MoPubView) findViewById(R.id.adviewCustom);
         moPubView.setAdUnitId("58ba90e111ac43819d94f4612b8c37f8");
@@ -260,6 +260,25 @@ public abstract class BrowserActivity extends ThemableBrowserActivity implements
 
         initialize(savedInstanceState);
 
+    }
+
+    private void loadHorizontalAds() {
+
+        RecyclerViewHorizontalAdapter adapter = new RecyclerViewHorizontalAdapter();
+        List<String> adsList = new ArrayList<>();
+        adsList.add("b195f8dd8ded45fe847ad89ed1d016da");
+        adapter.setAdsIDList(adsList);
+        recyclerViewVertical.setAdapter(adapter);
+        recyclerViewVertical.setLayoutManager(new LinearLayoutManager(this));
+        //recyclerViewHorizontal.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
+        adapter.loadAds();
+      //  moPubView = (MoPubView) findViewById(R.id.adview);
+      //  moPubView.setAdUnitId("a9ba1505f6354a5890e4102ebf8bcff8"); // Enter your Ad Unit ID from www.mopub.com
+      //  moPubView.loadAd();
+        //b195f8dd8ded45fe847ad89ed1d016da
+
+        //moPubView.setAdUnitId("a9ba1505f6354a5890e4102ebf8bcff8"); //BANNER ROCK AND ROLL
+        //moPubView.setAdUnitId("b195f8dd8ded45fe847ad89ed1d016da"); // BANNER DE PRUEBA
     }
 
     private synchronized void initialize(Bundle savedInstanceState) {
