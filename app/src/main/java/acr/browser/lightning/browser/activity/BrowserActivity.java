@@ -38,7 +38,9 @@ import android.support.v4.widget.DrawerLayout.DrawerListener;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.graphics.Palette;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.Toolbar;
+import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.KeyEvent;
@@ -72,6 +74,7 @@ import android.widget.FrameLayout;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.TextView.OnEditorActionListener;
@@ -88,10 +91,13 @@ import com.mopub.mobileads.MoPubView;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.inject.Inject;
 
 import acr.browser.lightning.R;
+import acr.browser.lightning.browser.adapter.addsListAdapter;
 import acr.browser.lightning.reading.activity.ReadingActivity;
 import acr.browser.lightning.browser.BookmarksView;
 import acr.browser.lightning.browser.BrowserPresenter;
@@ -151,6 +157,9 @@ public abstract class BrowserActivity extends ThemableBrowserActivity implements
     @BindView(R.id.toolbar_layout) ViewGroup mToolbarLayout;
     @BindView(R.id.progress_view) AnimatedProgressBar mProgressBar;
     @BindView(R.id.search_bar) RelativeLayout mSearchBar;
+
+    @BindView(R.id.horizontalList) RecyclerView horizaontalAddsList;
+    @BindView(R.id.verticalList) RecyclerView verticalAddsList;
 
     // Toolbar Views
     @BindView(R.id.toolbar) Toolbar mToolbar;
@@ -242,10 +251,12 @@ public abstract class BrowserActivity extends ThemableBrowserActivity implements
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
 
-        moPubView = (MoPubView) findViewById(R.id.adview);
-        moPubView.setAdUnitId("a9ba1505f6354a5890e4102ebf8bcff8"); // Enter your Ad Unit ID from www.mopub.com
-        moPubView.loadAd();
+        //moPubView = (MoPubView) findViewById(R.id.adview);
+        //moPubView.setAdUnitId("a9ba1505f6354a5890e4102ebf8bcff8"); // Enter your Ad Unit ID from www.mopub.com
+        //moPubView.loadAd();
         //b195f8dd8ded45fe847ad89ed1d016da
+
+
 
         //moPubView.setAdUnitId("a9ba1505f6354a5890e4102ebf8bcff8"); //BANNER ROCK AND ROLL
         //moPubView.setAdUnitId("b195f8dd8ded45fe847ad89ed1d016da"); // BANNER DE PRUEBA
@@ -255,6 +266,24 @@ public abstract class BrowserActivity extends ThemableBrowserActivity implements
         moPubView.setAdUnitId("58ba90e111ac43819d94f4612b8c37f8");
         moPubView.loadAd();
          */
+
+        List<String> addsList = new ArrayList<String>();
+        for(int i = 1; i < 11; i++)
+            addsList.add("a9ba1505f6354a5890e4102ebf8bcff8");
+        addsListAdapter horizaontalAdapter = new addsListAdapter(this, false);
+        horizaontalAdapter.adds = addsList;
+        LinearLayoutManager layoutManagerHorizontal = new LinearLayoutManager(this);
+        layoutManagerHorizontal.setOrientation(LinearLayoutManager.HORIZONTAL);
+        this.horizaontalAddsList.setLayoutManager(layoutManagerHorizontal);
+        this.horizaontalAddsList.setAdapter(horizaontalAdapter);
+
+        addsListAdapter VerticalAdapter = new addsListAdapter(this, true);
+        VerticalAdapter.adds = addsList;
+        LinearLayoutManager layoutManagerVertical = new LinearLayoutManager(this);
+        layoutManagerVertical.setOrientation(LinearLayoutManager.VERTICAL);
+        this.verticalAddsList.setLayoutManager(layoutManagerVertical);
+        this.verticalAddsList.setAdapter(VerticalAdapter);
+
         mTabsManager = new TabsManager();
         mPresenter = new BrowserPresenter(this, isIncognito());
 

@@ -1,5 +1,6 @@
 <!-- Copyright 2014 ACR Development -->
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
@@ -26,6 +27,28 @@
 
                 <include layout="@layout/browser_content" />
 
+                <android.support.v7.widget.RecyclerView
+                    android:id="@+id/horizontalList"
+                    android:layout_width="match_parent"
+                    android:layout_height="80dp"
+                    android:layout_marginTop="-50dp"
+                    android:layout_marginLeft="20dp"
+                    android:layout_marginRight="20dp"
+                    android:background="@color/error_red">
+
+                </android.support.v7.widget.RecyclerView>
+
+                <android.support.v7.widget.RecyclerView
+                    android:id="@+id/verticalList"
+                    android:layout_width="match_parent"
+                    android:layout_height="370dp"
+                    android:layout_marginTop="20dp"
+                    android:layout_marginLeft="20dp"
+                    android:layout_marginRight="20dp"
+                    android:background="@color/error_red">
+
+                </android.support.v7.widget.RecyclerView>
+
                 <include layout="@layout/search_interface" />
 
             </LinearLayout>
@@ -37,7 +60,8 @@
                 android:layout_gravity="start"
                 android:background="?attr/drawerBackground"
                 android:fitsSystemWindows="true"
-                android:weightSum="1" />
+                android:weightSum="1"
+                android:visibility="gone"/>
 
             <FrameLayout
                 android:id="@+id/right_drawer"
@@ -54,9 +78,14 @@
     </android.support.design.widget.CoordinatorLayout>
 
     <LinearLayout
+        android:id="@+id/addsLayout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:visibility="gone">
 
         <ImageView
             android:layout_width="55dp"
@@ -65,7 +94,8 @@
             android:layout_marginTop="15dp"
             android:background="@color/gray_light"
             android:clickable="true"
-            android:src="@mipmap/ic_launcher" />
+            android:src="@mipmap/ic_launcher"
+            android:visibility="invisible" />
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -75,32 +105,27 @@
             android:visibility="visible">
 
             <android.support.v7.widget.RecyclerView
-                android:id="@+id/recycler_view_horizontal"
+                android:id="@+id/horizontalList2"
                 android:layout_width="match_parent"
-                android:background="@color/error_red"
-                android:layout_height="200dp"
+                android:layout_height="100dp"
                 android:layout_marginEnd="20dp"
                 android:layout_marginStart="20dp"
-                android:layout_marginTop="50dp">
+                android:layout_marginTop="50dp"
+                android:background="@color/error_red">
 
             </android.support.v7.widget.RecyclerView>
 
             <android.support.v7.widget.RecyclerView
-                android:id="@+id/recycler_view_vertical"
+                android:id="@+id/verticalList2"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_height="400dp"
                 android:layout_marginEnd="20dp"
                 android:layout_marginStart="20dp"
                 android:layout_marginTop="50dp"
-                android:background="@color/black">
+                android:background="@color/error_red">
 
             </android.support.v7.widget.RecyclerView>
 
-            <com.mopub.mobileads.MoPubView
-                android:id="@+id/adview"
-                android:layout_width="fill_parent"
-                android:layout_height="50dp"
-                android:layout_marginTop="200dp" />
         </LinearLayout>
     </LinearLayout>
 

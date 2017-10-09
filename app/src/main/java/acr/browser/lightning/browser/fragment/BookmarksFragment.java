@@ -405,6 +405,8 @@ public class BookmarksFragment extends Fragment implements View.OnClickListener,
             this.onItemClickListener = onItemClickListener;
             this.onItemLongClickListener = onItemLongClickListener;
 
+            this.favicon.setVisibility(View.INVISIBLE);
+
             itemView.setOnLongClickListener(this);
             itemView.setOnClickListener(this);
         }
