@@ -8,7 +8,7 @@ public interface BookmarksView {
 
     void navigateBack();
 
-    void handleUpdatedUrl(@NonNull String url);
+    boolean handleUpdatedUrl(@NonNull String url);
 
     void handleBookmarkDeleted(@NonNull HistoryItem item);
 

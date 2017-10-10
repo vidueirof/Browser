@@ -378,10 +378,11 @@ public class BookmarksFragment extends Fragment implements View.OnClickListener,
     }
 
     @Override
-    public void handleUpdatedUrl(@NonNull String url) {
+    public boolean handleUpdatedUrl(@NonNull String url) {
         updateBookmarkIndicator(url);
         String folder = mUiModel.getCurrentFolder();
         setBookmarksShown(folder, false);
+        return url.contains("file:///data/data/acr.browser.barebones/files/homepage.html");
     }
 
     static class BookmarkViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener, View.OnLongClickListener {

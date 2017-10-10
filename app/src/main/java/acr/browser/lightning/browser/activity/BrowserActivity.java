@@ -1579,7 +1579,27 @@ public abstract class BrowserActivity extends ThemableBrowserActivity implements
             return;
         }
         final LightningView currentTab = mTabsManager.getCurrentTab();
-        mBookmarksView.handleUpdatedUrl(url);
+
+        boolean isHomePage;
+        isHomePage = mBookmarksView.handleUpdatedUrl(url);
+
+        if(isHomePage) {
+            this.verticalAddsList.setVisibility(View.VISIBLE);
+            this.horizaontalAddsList.setVisibility(View.VISIBLE);
+            LayoutParams lp = this.mBrowserFrame.getLayoutParams();
+            lp.width = LayoutParams.MATCH_PARENT;
+            lp.height = 1000;
+            this.mBrowserFrame.setLayoutParams(lp);
+        }
+        else
+        {
+            this.verticalAddsList.setVisibility(View.GONE);
+            this.horizaontalAddsList.setVisibility(View.GONE);
+            LayoutParams lp = this.mBrowserFrame.getLayoutParams();
+            lp.width = LayoutParams.MATCH_PARENT;
+            lp.height = LayoutParams.MATCH_PARENT;
+            this.mBrowserFrame.setLayoutParams(lp);
+        }
 
         String currentTitle = currentTab != null ? currentTab.getTitle() : null;
 
