@@ -4,6 +4,7 @@
     <color name="black">#ff000000</color>
     <color name="gray_dark">#222222</color>
     <color name="gray_light">#dedede</color>
+    <color name="gray_lighter">#f5f5f5</color>
     <color name="gray_medium">#cdcdcd</color>
     <color name="white">#ffffff</color>
     <color name="gray_list_bg">#0d000000</color>

@@ -270,6 +270,9 @@ public abstract class BrowserActivity extends ThemableBrowserActivity implements
         List<String> addsList = new ArrayList<String>();
         for(int i = 1; i < 11; i++)
             addsList.add("a9ba1505f6354a5890e4102ebf8bcff8");
+        addsList.add("b195f8dd8ded45fe847ad89ed1d016da");
+        addsList.add("8885941edfe343dfb0fcc350bbac5a61");
+        //addsList.add("58ba90e111ac43819d94f4612b8c37f8"); nativo
         addsListAdapter horizaontalAdapter = new addsListAdapter(this, false);
         horizaontalAdapter.adds = addsList;
         LinearLayoutManager layoutManagerHorizontal = new LinearLayoutManager(this);
@@ -1584,6 +1587,7 @@ public abstract class BrowserActivity extends ThemableBrowserActivity implements
         isHomePage = mBookmarksView.handleUpdatedUrl(url);
 
         if(isHomePage) {
+            mToolbarLayout.setVisibility(View.GONE);
             this.verticalAddsList.setVisibility(View.VISIBLE);
             this.horizaontalAddsList.setVisibility(View.VISIBLE);
             LayoutParams lp = this.mBrowserFrame.getLayoutParams();
@@ -1593,6 +1597,9 @@ public abstract class BrowserActivity extends ThemableBrowserActivity implements
         }
         else
         {
+            if (!url.isEmpty()){
+                mToolbarLayout.setVisibility(View.VISIBLE);
+            }
             this.verticalAddsList.setVisibility(View.GONE);
             this.horizaontalAddsList.setVisibility(View.GONE);
             LayoutParams lp = this.mBrowserFrame.getLayoutParams();

@@ -53,6 +53,10 @@ android {
     packagingOptions {
         exclude '.readme'
     }
+
+    dexOptions{
+        jumboMode true
+    }
 }
 
 dexcount {

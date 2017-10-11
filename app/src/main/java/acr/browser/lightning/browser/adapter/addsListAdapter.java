@@ -1,6 +1,7 @@
 package acr.browser.lightning.browser.adapter;
 
 import acr.browser.lightning.R;
+
 import android.content.Context;
 import android.graphics.Point;
 import android.support.annotation.NonNull;
@@ -11,6 +12,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.BaseAdapter;
+import android.widget.Toast;
 
 import com.mopub.mobileads.MoPubView;
 
@@ -29,8 +31,7 @@ public class addsListAdapter extends RecyclerView.Adapter {
     public List<String> adds;
     //private MoPubView moPubView;
 
-    public addsListAdapter(@NonNull Context context, boolean isVertical)
-    {
+    public addsListAdapter(@NonNull Context context, boolean isVertical) {
         this.mContext = context;
         this.bIsVertical = isVertical;
     }
@@ -50,7 +51,7 @@ public class addsListAdapter extends RecyclerView.Adapter {
                 .inflate(R.layout.adds_list_item, parent, false);
         // set the view's size, margins, paddings and layout parameters
 
-        if(!this.bIsVertical)
+        if (!this.bIsVertical)
             v.getLayoutParams().width = (int) (getScreenWidth() / 3); /// THIS LINE WILL DIVIDE OUR VIEW INTO NUMBERS OF PARTS
         else
             v.getLayoutParams().height = (int) (getScreenHeight() / 10); /// THIS LINE WILL DIVIDE OUR VIEW INTO NUMBERS OF PARTS
@@ -87,8 +88,9 @@ public class addsListAdapter extends RecyclerView.Adapter {
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
 
-        ((MyViewHolder)holder).add.setAdUnitId(this.adds.get(position)); // Enter your Ad Unit ID from www.mopub.com
-        ((MyViewHolder)holder).add.loadAd();
+        ((MyViewHolder) holder).add.setAdUnitId(this.adds.get(position)); // Enter your Ad Unit ID from www.mopub.com
+        ((MyViewHolder) holder).add.loadAd();
+        ((MyViewHolder) holder).add.setClickable(true);
     }
 
     @Override
@@ -124,12 +126,12 @@ public class addsListAdapter extends RecyclerView.Adapter {
             super(itemView);
 
             add = itemView.findViewById(R.id.adview);//change Here
-            add.setOnClickListener(new View.OnClickListener() {
+            /*add.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    //OnClick
+                    Toast.makeText(v.getContext(), "ad número" + getAdapterPosition(), Toast.LENGTH_SHORT);
                 }
-            });
+            });*/
         }
     }
 }
