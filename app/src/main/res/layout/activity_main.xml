@@ -60,7 +60,7 @@
                 android:background="?attr/drawerBackground"
                 android:fitsSystemWindows="true"
                 android:visibility="gone"
-                android:weightSum="1" />
+                android:weightSum="1"/>
 
             <FrameLayout
                 android:id="@+id/right_drawer"
@@ -69,6 +69,7 @@
                 android:layout_gravity="end"
                 android:background="?attr/drawerBackground"
                 android:fitsSystemWindows="true"
+                android:visibility="gone"
                 android:weightSum="1" />
 
         </android.support.v4.widget.DrawerLayout>

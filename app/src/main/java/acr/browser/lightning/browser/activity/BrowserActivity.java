@@ -1588,6 +1588,8 @@ public abstract class BrowserActivity extends ThemableBrowserActivity implements
 
         if(isHomePage) {
             mToolbarLayout.setVisibility(View.GONE);
+            hideActionBar();
+            hideActionBar();
             this.verticalAddsList.setVisibility(View.VISIBLE);
             this.horizaontalAddsList.setVisibility(View.VISIBLE);
             LayoutParams lp = this.mBrowserFrame.getLayoutParams();
@@ -1688,6 +1690,8 @@ public abstract class BrowserActivity extends ThemableBrowserActivity implements
      * function that opens the HTML history page in the browser
      */
     private void openHistory() {
+        this.verticalAddsList.setVisibility(View.GONE);
+        this.horizaontalAddsList.setVisibility(View.GONE);
         new HistoryPage().getHistoryPage()
             .subscribeOn(Schedulers.io())
             .observeOn(Schedulers.main())
@@ -2195,7 +2199,7 @@ public abstract class BrowserActivity extends ThemableBrowserActivity implements
     public void showActionBar() {
         if (mFullScreen) {
             Log.d(TAG, "showActionBar");
-            if (mToolbarLayout == null)
+            if (mToolbarLayout.getVisibility() == View.GONE || mToolbarLayout == null)
                 return;
 
             int height = mToolbarLayout.getHeight();

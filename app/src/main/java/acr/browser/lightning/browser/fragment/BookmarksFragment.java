@@ -382,7 +382,7 @@ public class BookmarksFragment extends Fragment implements View.OnClickListener,
         updateBookmarkIndicator(url);
         String folder = mUiModel.getCurrentFolder();
         setBookmarksShown(folder, false);
-        return url.contains("file:///data");
+        return url.contains("file:///data") && url.contains("homepage");
     }
 
     static class BookmarkViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener, View.OnLongClickListener {
