@@ -25,6 +25,7 @@ import android.widget.TextView;
 import com.anthonycr.bonsai.Schedulers;
 import com.anthonycr.bonsai.SingleOnSubscribe;
 import com.anthonycr.bonsai.Subscription;
+import com.mopub.mobileads.MoPubView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -72,14 +73,18 @@ public class BookmarksFragment extends Fragment implements View.OnClickListener,
     private final static String INCOGNITO_MODE = TAG + ".INCOGNITO_MODE";
 
     // Managers
-    @Inject BookmarkModel mBookmarkManager;
+    @Inject
+    BookmarkModel mBookmarkManager;
 
     // Dialog builder
-    @Inject LightningDialogBuilder mBookmarksDialogBuilder;
+    @Inject
+    LightningDialogBuilder mBookmarksDialogBuilder;
 
-    @Inject PreferenceManager mPreferenceManager;
+    @Inject
+    PreferenceManager mPreferenceManager;
 
-    @Inject FaviconModel mFaviconModel;
+    @Inject
+    FaviconModel mFaviconModel;
 
     private TabsManager mTabsManager;
 
@@ -92,22 +97,30 @@ public class BookmarksFragment extends Fragment implements View.OnClickListener,
     private Bitmap mWebpageBitmap, mFolderBitmap;
 
     // Views
-    @BindView(R.id.right_drawer_list) RecyclerView mBookmarksListView;
-    @BindView(R.id.starIcon) ImageView mBookmarkTitleImage;
-    @BindView(R.id.icon_star) ImageView mBookmarkImage;
+    @BindView(R.id.right_drawer_list)
+    RecyclerView mBookmarksListView;
+    @BindView(R.id.starIcon)
+    ImageView mBookmarkTitleImage;
+    @BindView(R.id.icon_star)
+    ImageView mBookmarkImage;
 
-    @Nullable private Unbinder mUnbinder;
+    @Nullable
+    private Unbinder mUnbinder;
 
     // Colors
     private int mIconColor, mScrollIndex;
 
     private boolean mIsIncognito;
 
-    @Nullable private Subscription mBookmarksSubscription;
-    @Nullable private Subscription mFoldersSubscription;
-    @Nullable private Subscription mBookmarkUpdateSubscription;
+    @Nullable
+    private Subscription mBookmarksSubscription;
+    @Nullable
+    private Subscription mFoldersSubscription;
+    @Nullable
+    private Subscription mBookmarkUpdateSubscription;
 
-    @NonNull private final BookmarkUiModel mUiModel = new BookmarkUiModel();
+    @NonNull
+    private final BookmarkUiModel mUiModel = new BookmarkUiModel();
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -122,7 +135,7 @@ public class BookmarksFragment extends Fragment implements View.OnClickListener,
         mWebpageBitmap = ThemeUtils.getThemedBitmap(context, R.drawable.ic_webpage, darkTheme);
         mFolderBitmap = ThemeUtils.getThemedBitmap(context, R.drawable.ic_folder, darkTheme);
         mIconColor = darkTheme ? ThemeUtils.getIconDarkThemeColor(context) :
-            ThemeUtils.getIconLightThemeColor(context);
+                ThemeUtils.getIconLightThemeColor(context);
     }
 
     private TabsManager getTabsManager() {
@@ -232,32 +245,32 @@ public class BookmarksFragment extends Fragment implements View.OnClickListener,
         mWebpageBitmap = ThemeUtils.getThemedBitmap(activity, R.drawable.ic_webpage, darkTheme);
         mFolderBitmap = ThemeUtils.getThemedBitmap(activity, R.drawable.ic_folder, darkTheme);
         mIconColor = darkTheme ? ThemeUtils.getIconDarkThemeColor(activity) :
-            ThemeUtils.getIconLightThemeColor(activity);
+                ThemeUtils.getIconLightThemeColor(activity);
     }
 
     private void updateBookmarkIndicator(final String url) {
         SubscriptionUtils.safeUnsubscribe(mBookmarkUpdateSubscription);
         mBookmarkUpdateSubscription = mBookmarkManager.isBookmark(url)
-            .subscribeOn(Schedulers.io())
-            .observeOn(Schedulers.main())
-            .subscribe(new SingleOnSubscribe<Boolean>() {
-                @Override
-                public void onItem(@Nullable Boolean item) {
-                    mBookmarkUpdateSubscription = null;
-                    Preconditions.checkNonNull(item);
-                    Activity activity = getActivity();
-                    if (mBookmarkImage == null || activity == null) {
-                        return;
+                .subscribeOn(Schedulers.io())
+                .observeOn(Schedulers.main())
+                .subscribe(new SingleOnSubscribe<Boolean>() {
+                    @Override
+                    public void onItem(@Nullable Boolean item) {
+                        mBookmarkUpdateSubscription = null;
+                        Preconditions.checkNonNull(item);
+                        Activity activity = getActivity();
+                        if (mBookmarkImage == null || activity == null) {
+                            return;
+                        }
+                        if (!item) {
+                            mBookmarkImage.setImageResource(R.drawable.ic_action_star);
+                            mBookmarkImage.setColorFilter(mIconColor, PorterDuff.Mode.SRC_IN);
+                        } else {
+                            mBookmarkImage.setImageResource(R.drawable.ic_bookmark);
+                            mBookmarkImage.setColorFilter(ThemeUtils.getAccentColor(activity), PorterDuff.Mode.SRC_IN);
+                        }
                     }
-                    if (!item) {
-                        mBookmarkImage.setImageResource(R.drawable.ic_action_star);
-                        mBookmarkImage.setColorFilter(mIconColor, PorterDuff.Mode.SRC_IN);
-                    } else {
-                        mBookmarkImage.setImageResource(R.drawable.ic_bookmark);
-                        mBookmarkImage.setColorFilter(ThemeUtils.getAccentColor(activity), PorterDuff.Mode.SRC_IN);
-                    }
-                }
-            });
+                });
     }
 
     @Override
@@ -272,34 +285,34 @@ public class BookmarksFragment extends Fragment implements View.OnClickListener,
     private void setBookmarksShown(@Nullable final String folder, final boolean animate) {
         SubscriptionUtils.safeUnsubscribe(mBookmarksSubscription);
         mBookmarksSubscription = mBookmarkManager.getBookmarksFromFolderSorted(folder)
-            .subscribeOn(Schedulers.io())
-            .observeOn(Schedulers.main())
-            .subscribe(new SingleOnSubscribe<List<HistoryItem>>() {
-                @Override
-                public void onItem(@Nullable final List<HistoryItem> item) {
-                    mBookmarksSubscription = null;
-                    Preconditions.checkNonNull(item);
+                .subscribeOn(Schedulers.io())
+                .observeOn(Schedulers.main())
+                .subscribe(new SingleOnSubscribe<List<HistoryItem>>() {
+                    @Override
+                    public void onItem(@Nullable final List<HistoryItem> item) {
+                        mBookmarksSubscription = null;
+                        Preconditions.checkNonNull(item);
 
-                    mUiModel.setCurrentFolder(folder);
-                    if (folder == null) {
-                        SubscriptionUtils.safeUnsubscribe(mFoldersSubscription);
-                        mFoldersSubscription = mBookmarkManager.getFoldersSorted()
-                            .subscribeOn(Schedulers.io())
-                            .observeOn(Schedulers.main())
-                            .subscribe(new SingleOnSubscribe<List<HistoryItem>>() {
-                                @Override
-                                public void onItem(@Nullable List<HistoryItem> folders) {
-                                    mFoldersSubscription = null;
-                                    Preconditions.checkNonNull(folders);
-                                    item.addAll(folders);
-                                    setBookmarkDataSet(item, animate);
-                                }
-                            });
-                    } else {
-                        setBookmarkDataSet(item, animate);
+                        mUiModel.setCurrentFolder(folder);
+                        if (folder == null) {
+                            SubscriptionUtils.safeUnsubscribe(mFoldersSubscription);
+                            mFoldersSubscription = mBookmarkManager.getFoldersSorted()
+                                    .subscribeOn(Schedulers.io())
+                                    .observeOn(Schedulers.main())
+                                    .subscribe(new SingleOnSubscribe<List<HistoryItem>>() {
+                                        @Override
+                                        public void onItem(@Nullable List<HistoryItem> folders) {
+                                            mFoldersSubscription = null;
+                                            Preconditions.checkNonNull(folders);
+                                            item.addAll(folders);
+                                            setBookmarkDataSet(item, animate);
+                                        }
+                                    });
+                        } else {
+                            setBookmarkDataSet(item, animate);
+                        }
                     }
-                }
-            });
+                });
     }
 
     private void setBookmarkDataSet(@NonNull List<HistoryItem> items, boolean animate) {
@@ -379,20 +392,37 @@ public class BookmarksFragment extends Fragment implements View.OnClickListener,
 
     @Override
     public boolean handleUpdatedUrl(@NonNull String url) {
+        if (url == null || url == "") {
+            return false;
+        }
         updateBookmarkIndicator(url);
         String folder = mUiModel.getCurrentFolder();
+        MoPubView ad_browser = (MoPubView) getActivity().findViewById(R.id.ad_browser_content);
+        if (url.contains("google.com")) {
+            ad_browser.setVisibility(View.VISIBLE);
+            ad_browser.setAdUnitId("b195f8dd8ded45fe847ad89ed1d016da");
+            ad_browser.loadAd();
+            // agregar el add arriba de la búsqueda de google
+        } else {
+            ad_browser.setVisibility(View.GONE);
+        }
         setBookmarksShown(folder, false);
         return url.contains("file:///data") && url.contains("homepage");
     }
 
     static class BookmarkViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener, View.OnLongClickListener {
-        @BindView(R.id.textBookmark) TextView txtTitle;
-        @BindView(R.id.faviconBookmark) ImageView favicon;
+        @BindView(R.id.textBookmark)
+        TextView txtTitle;
+        @BindView(R.id.faviconBookmark)
+        ImageView favicon;
 
-        @NonNull private final BookmarkListAdapter adapter;
+        @NonNull
+        private final BookmarkListAdapter adapter;
 
-        @Nullable private final OnItemLongClickListener onItemLongClickListener;
-        @Nullable private final OnItemClickListener onItemClickListener;
+        @Nullable
+        private final OnItemLongClickListener onItemLongClickListener;
+        @Nullable
+        private final OnItemClickListener onItemClickListener;
 
         BookmarkViewHolder(@NonNull View itemView,
                            @NonNull BookmarkListAdapter adapter,
@@ -424,7 +454,7 @@ public class BookmarksFragment extends Fragment implements View.OnClickListener,
         public boolean onLongClick(View v) {
             int index = getAdapterPosition();
             return index != RecyclerView.NO_POSITION && onItemLongClickListener != null &&
-                onItemLongClickListener.onItemLongClick(adapter.itemAt(index));
+                    onItemLongClickListener.onItemLongClick(adapter.itemAt(index));
         }
     }
 
@@ -438,14 +468,21 @@ public class BookmarksFragment extends Fragment implements View.OnClickListener,
 
     private static class BookmarkListAdapter extends RecyclerView.Adapter<BookmarkViewHolder> {
 
-        @NonNull private List<HistoryItem> mBookmarks = new ArrayList<>();
-        @NonNull private final FaviconModel mFaviconModel;
-        @NonNull private final Bitmap mFolderBitmap;
-        @NonNull private final Bitmap mWebpageBitmap;
-        @NonNull private final Map<String, Subscription> mFaviconFetchSubscriptions = new ConcurrentHashMap<>();
+        @NonNull
+        private List<HistoryItem> mBookmarks = new ArrayList<>();
+        @NonNull
+        private final FaviconModel mFaviconModel;
+        @NonNull
+        private final Bitmap mFolderBitmap;
+        @NonNull
+        private final Bitmap mWebpageBitmap;
+        @NonNull
+        private final Map<String, Subscription> mFaviconFetchSubscriptions = new ConcurrentHashMap<>();
 
-        @Nullable private OnItemLongClickListener mOnItemLongCLickListener;
-        @Nullable private OnItemClickListener mOnItemClickListener;
+        @Nullable
+        private OnItemLongClickListener mOnItemLongCLickListener;
+        @Nullable
+        private OnItemClickListener mOnItemClickListener;
 
         BookmarkListAdapter(@NonNull FaviconModel faviconModel,
                             @NonNull Bitmap folderBitmap,
@@ -541,20 +578,20 @@ public class BookmarksFragment extends Fragment implements View.OnClickListener,
                 SubscriptionUtils.safeUnsubscribe(oldSubscription);
 
                 final Subscription faviconSubscription = mFaviconModel.faviconForUrl(url, web.getTitle())
-                    .subscribeOn(Schedulers.io())
-                    .observeOn(Schedulers.main())
-                    .subscribe(new SingleOnSubscribe<Bitmap>() {
-                        @Override
-                        public void onItem(@Nullable Bitmap item) {
-                            mFaviconFetchSubscriptions.remove(url);
-                            Object tag = holder.favicon.getTag();
-                            if (tag != null && tag.equals(url.hashCode())) {
-                                holder.favicon.setImageBitmap(item);
-                            }
+                        .subscribeOn(Schedulers.io())
+                        .observeOn(Schedulers.main())
+                        .subscribe(new SingleOnSubscribe<Bitmap>() {
+                            @Override
+                            public void onItem(@Nullable Bitmap item) {
+                                mFaviconFetchSubscriptions.remove(url);
+                                Object tag = holder.favicon.getTag();
+                                if (tag != null && tag.equals(url.hashCode())) {
+                                    holder.favicon.setImageBitmap(item);
+                                }
 
-                            web.setBitmap(item);
-                        }
-                    });
+                                web.setBitmap(item);
+                            }
+                        });
 
                 mFaviconFetchSubscriptions.put(url, faviconSubscription);
             } else {
