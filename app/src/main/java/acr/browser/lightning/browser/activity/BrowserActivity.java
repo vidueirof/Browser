@@ -39,8 +39,8 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.graphics.Palette;
 import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.Toolbar;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.KeyEvent;
@@ -74,7 +74,6 @@ import android.widget.FrameLayout;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.TextView.OnEditorActionListener;
@@ -86,7 +85,6 @@ import com.anthonycr.bonsai.Schedulers;
 import com.anthonycr.bonsai.SingleOnSubscribe;
 import com.anthonycr.grant.PermissionsManager;
 import com.anthonycr.progress.AnimatedProgressBar;
-import com.mopub.mobileads.MoPubErrorCode;
 import com.mopub.mobileads.MoPubView;
 
 import java.io.File;
@@ -96,17 +94,18 @@ import java.util.List;
 
 import javax.inject.Inject;
 
+import acr.browser.lightning.BrowserApp;
+import acr.browser.lightning.IncognitoActivity;
 import acr.browser.lightning.R;
-import acr.browser.lightning.browser.adapter.addsListAdapter;
-import acr.browser.lightning.reading.activity.ReadingActivity;
 import acr.browser.lightning.browser.BookmarksView;
 import acr.browser.lightning.browser.BrowserPresenter;
 import acr.browser.lightning.browser.BrowserView;
-import acr.browser.lightning.IncognitoActivity;
 import acr.browser.lightning.browser.SearchBoxModel;
 import acr.browser.lightning.browser.TabsManager;
 import acr.browser.lightning.browser.TabsView;
-import acr.browser.lightning.BrowserApp;
+import acr.browser.lightning.browser.adapter.addsListAdapter;
+import acr.browser.lightning.browser.fragment.BookmarksFragment;
+import acr.browser.lightning.browser.fragment.TabsFragment;
 import acr.browser.lightning.constant.Constants;
 import acr.browser.lightning.constant.DownloadsPage;
 import acr.browser.lightning.constant.HistoryPage;
@@ -116,13 +115,11 @@ import acr.browser.lightning.database.bookmark.BookmarkModel;
 import acr.browser.lightning.database.history.HistoryModel;
 import acr.browser.lightning.dialog.BrowserDialog;
 import acr.browser.lightning.dialog.LightningDialogBuilder;
-import acr.browser.lightning.browser.fragment.BookmarksFragment;
-import acr.browser.lightning.browser.fragment.TabsFragment;
 import acr.browser.lightning.interpolator.BezierDecelerateInterpolator;
+import acr.browser.lightning.reading.activity.ReadingActivity;
 import acr.browser.lightning.receiver.NetworkReceiver;
 import acr.browser.lightning.search.SearchEngineProvider;
 import acr.browser.lightning.search.SuggestionsAdapter;
-import acr.browser.lightning.search.engine.BaseSearchEngine;
 import acr.browser.lightning.settings.activity.SettingsActivity;
 import acr.browser.lightning.utils.DrawableUtils;
 import acr.browser.lightning.utils.IntentUtils;
@@ -137,7 +134,6 @@ import acr.browser.lightning.view.LightningView;
 import acr.browser.lightning.view.SearchView;
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import butterknife.OnClick;
 
 public abstract class BrowserActivity extends ThemableBrowserActivity implements BrowserView, UIController, OnClickListener {
 
@@ -737,8 +733,8 @@ public abstract class BrowserActivity extends ThemableBrowserActivity implements
 
         setFullscreen(mPreferences.getHideStatusBarEnabled(), false);
 
-        BaseSearchEngine currentSearchEngine = mSearchEngineProvider.getCurrentSearchEngine();
-        mSearchText = currentSearchEngine.getQueryUrl();
+//        BaseSearchEngine currentSearchEngine = mSearchEngineProvider.getCurrentSearchEngine();
+//        mSearchText = currentSearchEngine.getQueryUrl();
 
         updateCookiePreference().subscribeOn(Schedulers.worker()).subscribe();
         mProxyUtils.updateProxySettings(this);
