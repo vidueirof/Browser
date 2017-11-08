@@ -31,7 +31,7 @@ public class RecyclerViewHorizontalAdapter extends RecyclerView.Adapter<Recycler
     @Override
     public MoPubHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         this.context = parent.getContext();
-        View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_recycler_view_horizontal, parent, false);
+        View v = LayoutInflater.from(parent.getContext()).inflate(acr.browser.lightning.R.layout.item_recycler_view_horizontal, parent, false);
         return new MoPubHolder(v);
     }
 
@@ -56,7 +56,7 @@ public class RecyclerViewHorizontalAdapter extends RecyclerView.Adapter<Recycler
     }
 
     static class MoPubHolder extends RecyclerView.ViewHolder {
-        @BindView(R.id.ad_view_recycler_horizontal_item)
+        @BindView(acr.browser.lightning.R.id.ad_view_recycler_horizontal_item)
         MoPubView moPubView;
 
         public MoPubHolder(View itemView) {

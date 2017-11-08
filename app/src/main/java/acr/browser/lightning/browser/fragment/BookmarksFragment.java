@@ -22,10 +22,11 @@ import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.google.android.gms.ads.AdRequest;
+
 import com.anthonycr.bonsai.Schedulers;
 import com.anthonycr.bonsai.SingleOnSubscribe;
 import com.anthonycr.bonsai.Subscription;
-import com.mopub.mobileads.MoPubView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -397,14 +398,21 @@ public class BookmarksFragment extends Fragment implements View.OnClickListener,
         }
         updateBookmarkIndicator(url);
         String folder = mUiModel.getCurrentFolder();
-        MoPubView ad_browser = (MoPubView) getActivity().findViewById(R.id.ad_browser_content);
+
+        /*MoPubView ad_browser = (MoPubView) getActivity().findViewById(R.id.ad_browser_content);*/
+        com.google.android.gms.ads.AdView mAdView = (com.google.android.gms.ads.AdView) getActivity().findViewById(R.id.ad_browser_content);
+        AdRequest adRequest = new AdRequest.Builder().build();
+        mAdView.loadAd(adRequest);
+
         if (url.contains("google.com")) {
+            /* //MOPUB
             ad_browser.setVisibility(View.VISIBLE);
-            ad_browser.setAdUnitId("b195f8dd8ded45fe847ad89ed1d016da");
-            ad_browser.loadAd();
+            ad_browser.setAdUnitId("a9ba1505f6354a5890e4102ebf8bcff8");
+            ad_browser.loadAd();*/
             // agregar el add arriba de la búsqueda de google
         } else {
-            ad_browser.setVisibility(View.GONE);
+             /* //MOPUB
+            ad_browser.setVisibility(View.GONE);*/
         }
         setBookmarksShown(folder, false);
         return url.contains("file:///data") && url.contains("homepage");

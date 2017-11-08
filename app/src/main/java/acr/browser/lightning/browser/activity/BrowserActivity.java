@@ -85,6 +85,7 @@ import com.anthonycr.bonsai.Schedulers;
 import com.anthonycr.bonsai.SingleOnSubscribe;
 import com.anthonycr.grant.PermissionsManager;
 import com.anthonycr.progress.AnimatedProgressBar;
+import com.google.android.gms.ads.MobileAds;
 import com.mopub.mobileads.MoPubView;
 
 import java.io.File;
@@ -265,6 +266,7 @@ public abstract class BrowserActivity extends ThemableBrowserActivity implements
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
 
+        MobileAds.initialize(getApplicationContext(),"ca-app-pub-7981205089259397~2601477458");
         //moPubView = (MoPubView) findViewById(R.id.adview);
         //moPubView.setAdUnitId("a9ba1505f6354a5890e4102ebf8bcff8"); // Enter your Ad Unit ID from www.mopub.com
         //moPubView.loadAd();

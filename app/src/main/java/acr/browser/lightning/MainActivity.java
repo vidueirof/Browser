@@ -37,7 +37,7 @@ public class MainActivity extends BrowserActivity {
 
     @Override
     public boolean onCreateOptionsMenu(@NonNull Menu menu) {
-        getMenuInflater().inflate(R.menu.main, menu);
+        getMenuInflater().inflate(acr.browser.lightning.R.menu.main, menu);
         return super.onCreateOptionsMenu(menu);
     }
 
@@ -86,7 +86,7 @@ public class MainActivity extends BrowserActivity {
                     // Open a new private window
                     if (event.isShiftPressed()) {
                         startActivity(new Intent(this, IncognitoActivity.class));
-                        overridePendingTransition(R.anim.slide_up_in, R.anim.fade_out_scale);
+                        overridePendingTransition(acr.browser.lightning.R.anim.slide_up_in, acr.browser.lightning.R.anim.fade_out_scale);
                         return true;
                     }
                     break;

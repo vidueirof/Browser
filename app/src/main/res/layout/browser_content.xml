@@ -1,17 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:ads="http://schemas.android.com/apk/res-auto"
     android:id="@+id/content_frame"
     android:layout_width="match_parent"
     android:layout_height="270dp"
     android:background="@color/gray_lighter"
     android:clipChildren="true">
 
-    <com.mopub.mobileads.MoPubView
+    <com.google.android.gms.ads.AdView
         android:id="@+id/ad_browser_content"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_gravity="bottom"
         android:background="@color/gray_lighter"
         android:padding="5dp"
-        android:visibility="gone" />
+        ads:adSize="BANNER"
+        ads:adUnitId="ca-app-pub-7981205089259397/3311923894" />
 
 </FrameLayout>

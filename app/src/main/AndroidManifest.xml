@@ -24,7 +24,7 @@
         android:required="false"/>
 
     <application
-        android:name=".BrowserApp"
+        android:name="acr.browser.lightning.BrowserApp"
         android:allowBackup="true"
         android:hardwareAccelerated="true"
         android:icon="@mipmap/ic_launcher"
@@ -37,7 +37,7 @@
             android:value="2.1"/>
 
         <activity
-            android:name=".MainActivity"
+            android:name="acr.browser.lightning.MainActivity"
             android:alwaysRetainTaskState="true"
             android:configChanges="orientation|screenSize|screenLayout|smallestScreenSize|keyboardHidden|keyboard"
             android:label="@string/app_name"
@@ -123,7 +123,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".settings.activity.SettingsActivity"
+            android:name="acr.browser.lightning.settings.activity.SettingsActivity"
             android:configChanges="orientation|screenSize|screenLayout|smallestScreenSize|keyboardHidden|keyboard"
             android:label="@string/settings"
             android:theme="@style/Theme.SettingsTheme">
@@ -134,7 +134,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".IncognitoActivity"
+            android:name="acr.browser.lightning.IncognitoActivity"
             android:alwaysRetainTaskState="true"
             android:configChanges="orientation|screenSize|screenLayout|smallestScreenSize|keyboardHidden|keyboard"
             android:label="@string/app_name"
@@ -148,7 +148,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".reading.activity.ReadingActivity"
+            android:name="acr.browser.lightning.reading.activity.ReadingActivity"
             android:configChanges="orientation|screenSize|screenLayout|smallestScreenSize|keyboardHidden|keyboard"
             android:label="@string/reading_mode"
             android:theme="@style/Theme.SettingsTheme">
