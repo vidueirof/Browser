@@ -11,7 +11,11 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
+import android.widget.AbsListView;
 
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.AdSize;
+import com.google.android.gms.ads.AdView;
 import com.mopub.mobileads.MoPubView;
 
 import java.util.List;
@@ -45,8 +49,7 @@ public class addsListAdapter extends RecyclerView.Adapter {
     @Override
     public MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         // create a new view
-        View v = LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.adds_list_item, parent, false);
+        View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.adds_list_item, parent, false);
         // set the view's size, margins, paddings and layout parameters
 
         if (!this.bIsVertical)
@@ -86,9 +89,12 @@ public class addsListAdapter extends RecyclerView.Adapter {
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
 
-        ((MyViewHolder) holder).add.setAdUnitId(this.adds.get(position)); // Enter your Ad Unit ID from www.mopub.com
-        ((MyViewHolder) holder).add.loadAd();
-        ((MyViewHolder) holder).add.setClickable(true);
+        //((MyViewHolder) holder).add.setAdUnitId(this.adds.get(position)); // Enter your Ad Unit ID from www.mopub.com
+        //((MyViewHolder) holder).add.loadAd();
+        //((MyViewHolder) holder).add.setClickable(true);
+        AdRequest adRequest = new AdRequest.Builder().build();
+        ((MyViewHolder) holder).add.loadAd(adRequest);
+        //((MyViewHolder) holder).add.setClickable(true);
     }
 
     @Override
@@ -118,12 +124,14 @@ public class addsListAdapter extends RecyclerView.Adapter {
 
     class MyViewHolder extends RecyclerView.ViewHolder {
 
-        MoPubView add;
+        //MoPubView add;
+        AdView add;
 
         public MyViewHolder(View itemView) {
             super(itemView);
 
-            add = itemView.findViewById(R.id.adview);//change Here
+            //add = itemView.findViewById(R.id.adview);//change Here
+            add = itemView.findViewById(R.id.ad_browser);
             /*add.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
