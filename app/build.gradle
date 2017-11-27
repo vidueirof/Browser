@@ -95,7 +95,10 @@ dependencies {
     compile "com.android.support:appcompat-v7:$supportLibVersion"
     compile "com.android.support:design:$supportLibVersion"
     compile "com.android.support:recyclerview-v7:$supportLibVersion"
+    compile "com.android.support:cardview-v7:$supportLibVersion"
     compile "com.android.support:support-v4:$supportLibVersion"
+
+    //compile 'com.github.clockbyte:admobadapter:1.4.5'
 
     // html parsing for reading mode
 

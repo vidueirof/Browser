@@ -15,6 +15,7 @@
         android:background="@color/gray_lighter"
         android:padding="5dp"
         ads:adSize="BANNER"
-        ads:adUnitId="ca-app-pub-7981205089259397/3311923894" />
+        ads:adUnitId="ca-app-pub-7981205089259397/3311923894"
+        android:visibility="gone"/>
 
 </FrameLayout>

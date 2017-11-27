@@ -1,6 +1,7 @@
 package acr.browser.lightning.browser.adapter;
 
 import acr.browser.lightning.R;
+import acr.browser.lightning.browser.activity.BrowserActivity;
 
 import android.content.Context;
 import android.graphics.Point;
@@ -16,6 +17,7 @@ import android.widget.AbsListView;
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdSize;
 import com.google.android.gms.ads.AdView;
+import com.google.android.gms.ads.NativeExpressAdView;
 import com.mopub.mobileads.MoPubView;
 
 import java.util.List;
@@ -26,16 +28,34 @@ import java.util.List;
 
 public class addsListAdapter extends RecyclerView.Adapter {
 
+    private static final int MENU_ITEM_VIEW_TYPE = 0;
+
+    // The Native Express ad view type.
+    private static final int NATIVE_EXPRESS_AD_VIEW_TYPE = 1;
+
     @NonNull
     private final Context mContext;
     private boolean bIsVertical;
 
-    public List<String> adds;
+    public List<Object> adds;
     //private MoPubView moPubView;
 
     public addsListAdapter(@NonNull Context context, boolean isVertical) {
         this.mContext = context;
         this.bIsVertical = isVertical;
+    }
+
+    public class NativeExpressAdViewHolder extends RecyclerView.ViewHolder {
+
+        NativeExpressAdViewHolder(View view) {
+            super(view);
+        }
+    }
+
+    @Override
+    public int getItemViewType(int position) {
+        return NATIVE_EXPRESS_AD_VIEW_TYPE;
+
     }
 
     public int getCount() {
@@ -47,12 +67,12 @@ public class addsListAdapter extends RecyclerView.Adapter {
     }*/
 
     @Override
-    public MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         // create a new view
-        View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.adds_list_item, parent, false);
+        //View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.adds_list_item, parent, false);
         // set the view's size, margins, paddings and layout parameters
 
-        if (!this.bIsVertical)
+        /*if (!this.bIsVertical)
             v.getLayoutParams().width = (int) (getScreenWidth() / 3); /// THIS LINE WILL DIVIDE OUR VIEW INTO NUMBERS OF PARTS
         else
             v.getLayoutParams().height = (int) (getScreenHeight() / 10); /// THIS LINE WILL DIVIDE OUR VIEW INTO NUMBERS OF PARTS
@@ -63,7 +83,21 @@ public class addsListAdapter extends RecyclerView.Adapter {
                 return super.toString();
             }
         };
-        return vh;
+        return vh;*/
+
+        switch (viewType) {
+            case MENU_ITEM_VIEW_TYPE:
+                View menuItemLayoutView = LayoutInflater.from(parent.getContext()).inflate(
+                        R.layout.adds_list_item, parent, false);
+                return new MyViewHolder(menuItemLayoutView);
+            case NATIVE_EXPRESS_AD_VIEW_TYPE:
+            default:
+                View nativeExpressLayoutView = LayoutInflater.from(
+                        parent.getContext()).inflate(R.layout.native_express_ad_container,
+                        parent, false);
+
+                return new NativeExpressAdViewHolder(nativeExpressLayoutView);
+        }
     }
 
     public int getScreenWidth() {
@@ -92,9 +126,37 @@ public class addsListAdapter extends RecyclerView.Adapter {
         //((MyViewHolder) holder).add.setAdUnitId(this.adds.get(position)); // Enter your Ad Unit ID from www.mopub.com
         //((MyViewHolder) holder).add.loadAd();
         //((MyViewHolder) holder).add.setClickable(true);
-        AdRequest adRequest = new AdRequest.Builder().build();
-        ((MyViewHolder) holder).add.loadAd(adRequest);
+       // AdRequest adRequest = new AdRequest.Builder().build();
+        //((MyViewHolder) holder).add.loadAd(adRequest);
         //((MyViewHolder) holder).add.setClickable(true);
+
+        int viewType = getItemViewType(position);
+        switch (viewType) {
+            case MENU_ITEM_VIEW_TYPE:
+                MyViewHolder menuItemHolder = (MyViewHolder) holder;
+                break;
+            case NATIVE_EXPRESS_AD_VIEW_TYPE:
+            default:
+                NativeExpressAdViewHolder nativeExpressHolder =
+                        (NativeExpressAdViewHolder) holder;
+                NativeExpressAdView adView =
+                        (NativeExpressAdView) adds.get(position);
+                ViewGroup adCardView = (ViewGroup) nativeExpressHolder.itemView;
+                // The NativeExpressAdViewHolder recycled by the RecyclerView may be a different
+                // instance than the one used previously for this position. Clear the
+                // NativeExpressAdViewHolder of any subviews in case it has a different
+                // AdView associated with it, and make sure the AdView for this position doesn't
+                // already have a parent of a different recycled NativeExpressAdViewHolder.
+                if (adCardView.getChildCount() > 0) {
+                    adCardView.removeAllViews();
+                }
+                if (adView.getParent() != null) {
+                    ((ViewGroup) adView.getParent()).removeView(adView);
+                }
+
+                // Add the Native Express ad to the native express ad view.
+                adCardView.addView(adView);
+        }
     }
 
     @Override

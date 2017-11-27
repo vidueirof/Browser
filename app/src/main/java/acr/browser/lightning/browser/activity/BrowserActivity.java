@@ -41,6 +41,7 @@ import android.support.v7.graphics.Palette;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.support.v7.widget.CardView;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.KeyEvent;
@@ -85,7 +86,11 @@ import com.anthonycr.bonsai.Schedulers;
 import com.anthonycr.bonsai.SingleOnSubscribe;
 import com.anthonycr.grant.PermissionsManager;
 import com.anthonycr.progress.AnimatedProgressBar;
+import com.google.android.gms.ads.AdListener;
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.AdSize;
 import com.google.android.gms.ads.MobileAds;
+import com.google.android.gms.ads.NativeExpressAdView;
 import com.mopub.mobileads.MoPubView;
 
 import java.io.File;
@@ -241,6 +246,18 @@ public abstract class BrowserActivity extends ThemableBrowserActivity implements
     ProxyUtils mProxyUtils;
 
     // Constant
+
+    public static final int ITEMS_PER_AD = 8;
+
+    // The Native Express ad height.
+    private static final int NATIVE_EXPRESS_AD_HEIGHT = 50;
+
+    // The Native Express ad unit ID.
+    private static final String AD_UNIT_ID = "ca-app-pub-7981205089259397/3311923894";
+
+    private List<Object> mRecyclerViewItems = new ArrayList<>();
+    private List<Object> mRecyclerViewItems2 = new ArrayList<>();
+
     private static final int API = android.os.Build.VERSION.SDK_INT;
     private static final String NETWORK_BROADCAST_ACTION = "android.net.conn.CONNECTIVITY_CHANGE";
     private static final LayoutParams MATCH_PARENT = new LayoutParams(LayoutParams.MATCH_PARENT,
@@ -282,21 +299,25 @@ public abstract class BrowserActivity extends ThemableBrowserActivity implements
          moPubView.loadAd();
          */
 
-        List<String> addsList = new ArrayList<String>();
+        /*List<Object> addsList = new ArrayList<Object>();
         for (int i = 1; i < 11; i++)
-            addsList.add("a9ba1505f6354a5890e4102ebf8bcff8");
-        addsList.add("b195f8dd8ded45fe847ad89ed1d016da");
-        addsList.add("8885941edfe343dfb0fcc350bbac5a61");
+            addsList.add("item"+i);*/
+            //addsList.add("a9ba1505f6354a5890e4102ebf8bcff8");
+        //addsList.add("b195f8dd8ded45fe847ad89ed1d016da");
+        //addsList.add("8885941edfe343dfb0fcc350bbac5a61");
         //addsList.add("58ba90e111ac43819d94f4612b8c37f8"); nativo
+        addNativeExpressAds();
+        setUpAndLoadNativeExpressAds();
+
         addsListAdapter horizaontalAdapter = new addsListAdapter(this, false);
-        horizaontalAdapter.adds = addsList;
+        horizaontalAdapter.adds = mRecyclerViewItems;
         LinearLayoutManager layoutManagerHorizontal = new LinearLayoutManager(this);
         layoutManagerHorizontal.setOrientation(LinearLayoutManager.HORIZONTAL);
         this.horizaontalAddsList.setLayoutManager(layoutManagerHorizontal);
         this.horizaontalAddsList.setAdapter(horizaontalAdapter);
 
         addsListAdapter VerticalAdapter = new addsListAdapter(this, true);
-        VerticalAdapter.adds = addsList;
+        VerticalAdapter.adds = mRecyclerViewItems2;
         LinearLayoutManager layoutManagerVertical = new LinearLayoutManager(this);
         layoutManagerVertical.setOrientation(LinearLayoutManager.VERTICAL);
         this.verticalAddsList.setLayoutManager(layoutManagerVertical);
@@ -307,6 +328,144 @@ public abstract class BrowserActivity extends ThemableBrowserActivity implements
 
         initialize(savedInstanceState);
 
+    }
+
+    private void addNativeExpressAds() {
+
+        // Loop through the items array and place a new Native Express ad in every ith position in
+        // the items List.
+        for (int i = 0; i <= ITEMS_PER_AD; i ++) {
+            final NativeExpressAdView adView1 = new NativeExpressAdView(BrowserActivity.this);
+            mRecyclerViewItems.add(i, adView1);
+            final NativeExpressAdView adView2 = new NativeExpressAdView(BrowserActivity.this);
+            mRecyclerViewItems2.add(i, adView2);
+        }
+    }
+
+    /**
+     * Sets up and loads the Native Express ads.
+     */
+    private void setUpAndLoadNativeExpressAds() {
+        // Use a Runnable to ensure that the RecyclerView has been laid out before setting the
+        // ad size for the Native Express ad. This allows us to set the Native Express ad's
+        // width to match the full width of the RecyclerView.
+        this.horizaontalAddsList.post(new Runnable() {
+            @Override
+            public void run() {
+                final float scale = BrowserActivity.this.getResources().getDisplayMetrics().density;
+                // Set the ad size and ad unit ID for each Native Express ad in the items list.
+                for (int i = 0; i <= ITEMS_PER_AD; i++) {
+                    final NativeExpressAdView adView = (NativeExpressAdView) mRecyclerViewItems.get(i);
+                    final CardView cardView = (CardView) findViewById(R.id.ad_card_view);
+                    final int adWidth = cardView.getWidth() - cardView.getPaddingLeft() - cardView.getPaddingRight();
+                    AdSize adSize = new AdSize((int) (adWidth / scale), NATIVE_EXPRESS_AD_HEIGHT);
+                    adView.setAdSize(adSize);
+                    adView.setAdUnitId(AD_UNIT_ID);
+                    loadNativeExpressAd(i);
+                }
+
+                // Load the first Native Express ad in the items list.
+                //loadNativeExpressAd(0);
+            }
+        });
+
+        this.verticalAddsList.post(new Runnable() {
+            @Override
+            public void run() {
+                final float scale = BrowserActivity.this.getResources().getDisplayMetrics().density;
+                // Set the ad size and ad unit ID for each Native Express ad in the items list.
+                for (int i = 0; i <= ITEMS_PER_AD; i++) {
+                    final NativeExpressAdView adView = (NativeExpressAdView) mRecyclerViewItems2.get(i);
+                    final CardView cardView = (CardView) findViewById(R.id.ad_card_view);
+                    final int adWidth = cardView.getWidth() - cardView.getPaddingLeft() - cardView.getPaddingRight();
+                    AdSize adSize = new AdSize((int) (adWidth / scale), NATIVE_EXPRESS_AD_HEIGHT);
+                    adView.setAdSize(adSize);
+                    adView.setAdUnitId(AD_UNIT_ID);
+                    loadNativeExpressAd2(i);
+                }
+
+                // Load the first Native Express ad in the items list.
+                //loadNativeExpressAd2(1);
+            }
+        });
+    }
+
+    private void loadNativeExpressAd(final int index) {
+
+        if (index >= mRecyclerViewItems.size()) {
+            return;
+        }
+
+        Object item = mRecyclerViewItems.get(index);
+        if (!(item instanceof NativeExpressAdView)) {
+            throw new ClassCastException("Expected item at index " + index + " to be a Native"
+                    + " Express ad.");
+        }
+
+        final NativeExpressAdView adView = (NativeExpressAdView) item;
+
+        // Set an AdListener on the NativeExpressAdView to wait for the previous Native Express ad
+        // to finish loading before loading the next ad in the items list.
+        adView.setAdListener(new AdListener() {
+            @Override
+            public void onAdLoaded() {
+                super.onAdLoaded();
+                // The previous Native Express ad loaded successfully, call this method again to
+                // load the next ad in the items list.
+                loadNativeExpressAd(index + ITEMS_PER_AD);
+            }
+
+            @Override
+            public void onAdFailedToLoad(int errorCode) {
+                // The previous Native Express ad failed to load. Call this method again to load
+                // the next ad in the items list.
+                Log.e("MainActivity", "The previous Native Express ad failed to load. Attempting to"
+                        + " load the next Native Express ad in the items list.");
+                loadNativeExpressAd(index + ITEMS_PER_AD);
+            }
+        });
+
+        // Load the Native Express ad.
+        adView.loadAd(new AdRequest.Builder().build());
+    }
+
+    private void loadNativeExpressAd2(final int index) {
+
+        if (index >= mRecyclerViewItems2.size()) {
+            return;
+        }
+
+        Object item = mRecyclerViewItems2.get(index);
+        if (!(item instanceof NativeExpressAdView)) {
+            throw new ClassCastException("Expected item at index " + index + " to be a Native"
+                    + " Express ad.");
+        }
+
+        final NativeExpressAdView adView = (NativeExpressAdView) item;
+
+        // Set an AdListener on the NativeExpressAdView to wait for the previous Native Express ad
+        // to finish loading before loading the next ad in the items list.
+        adView.setAdListener(new AdListener() {
+            @Override
+            public void onAdLoaded() {
+                super.onAdLoaded();
+                // The previous Native Express ad loaded successfully, call this method again to
+                // load the next ad in the items list.
+                loadNativeExpressAd(index + ITEMS_PER_AD);
+            }
+
+            @Override
+            public void onAdFailedToLoad(int errorCode) {
+                // The previous Native Express ad failed to load. Call this method again to load
+                // the next ad in the items list.
+                Log.e("MainActivity", "The previous Native Express ad failed to load. Attempting to"
+                        + " load the next Native Express ad in the items list.");
+                loadNativeExpressAd(index + ITEMS_PER_AD);
+            }
+        });
+
+        // Load the Native Express ad.
+        adView.loadAd(new AdRequest.Builder().build());
     }
 
     private synchronized void initialize(Bundle savedInstanceState) {

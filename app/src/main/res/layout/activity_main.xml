@@ -28,27 +28,27 @@
 
                 <include layout="@layout/browser_content" />
 
+                <include layout="@layout/search_interface" />
+
                 <android.support.v7.widget.RecyclerView
                     android:id="@+id/horizontalList"
                     android:layout_width="match_parent"
                     android:layout_height="80dp"
-                    android:layout_marginLeft="20dp"
-                    android:layout_marginRight="20dp"
-                    android:layout_marginTop="-50dp"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginRight="10dp"
+                    android:layout_marginTop="-200dp"
                     android:background="@color/white"
                     android:padding="10dp" />
 
                 <android.support.v7.widget.RecyclerView
                     android:id="@+id/verticalList"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_marginLeft="20dp"
-                    android:layout_marginRight="20dp"
+                    android:layout_height="150dp"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginRight="10dp"
                     android:layout_marginTop="20dp"
                     android:background="@color/white"
                     android:padding="10dp"/>
-
-                <include layout="@layout/search_interface" />
 
             </LinearLayout>
 
