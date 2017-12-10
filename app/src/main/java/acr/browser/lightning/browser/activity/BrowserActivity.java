@@ -74,6 +74,7 @@ import android.widget.FrameLayout;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.TextView.OnEditorActionListener;
@@ -85,6 +86,8 @@ import com.anthonycr.bonsai.Schedulers;
 import com.anthonycr.bonsai.SingleOnSubscribe;
 import com.anthonycr.grant.PermissionsManager;
 import com.anthonycr.progress.AnimatedProgressBar;
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.AdView;
 import com.google.android.gms.ads.MobileAds;
 import com.mopub.mobileads.MoPubView;
 
@@ -105,6 +108,7 @@ import acr.browser.lightning.browser.SearchBoxModel;
 import acr.browser.lightning.browser.TabsManager;
 import acr.browser.lightning.browser.TabsView;
 import acr.browser.lightning.browser.adapter.addsListAdapter;
+import acr.browser.lightning.browser.adapter.admobAdapterEx;
 import acr.browser.lightning.browser.fragment.BookmarksFragment;
 import acr.browser.lightning.browser.fragment.TabsFragment;
 import acr.browser.lightning.constant.Constants;
@@ -266,7 +270,9 @@ public abstract class BrowserActivity extends ThemableBrowserActivity implements
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
 
-        MobileAds.initialize(getApplicationContext(),"ca-app-pub-7981205089259397~2601477458");
+        //MobileAds.initialize(getApplicationContext(), "ca-app-pub-7981205089259397~2601477458"); ANDA 1 VIEJO
+        //MobileAds.initialize(getApplicationContext(), "ca-app-pub-2922446936126419~6985628333"); // RAFA
+        MobileAds.initialize(getApplicationContext(), "ca-app-pub-7981205089259397~4163580331"); // Test 2 mio
         //moPubView = (MoPubView) findViewById(R.id.adview);
         //moPubView.setAdUnitId("a9ba1505f6354a5890e4102ebf8bcff8"); // Enter your Ad Unit ID from www.mopub.com
         //moPubView.loadAd();
@@ -281,6 +287,16 @@ public abstract class BrowserActivity extends ThemableBrowserActivity implements
          moPubView.setAdUnitId("58ba90e111ac43819d94f4612b8c37f8");
          moPubView.loadAd();
          */
+/*
+        List<String> ids = new ArrayList<String>();
+        ids.add("ca-app-pub-7981205089259397/3311923894");
+        ListView list_view = (ListView) findViewById(R.id.list_view);
+        AdView adView = (AdView) findViewById(R.id.ad_browser);
+        list_view.addView(adView);
+        for (int i =0;i<ids.size();i++){
+            AdRequest adRequest = new AdRequest.Builder().build();
+            list_view.getview.loadAd(adRequest);
+        }*/
 
         List<String> addsList = new ArrayList<String>();
         for (int i = 1; i < 11; i++)
@@ -288,15 +304,15 @@ public abstract class BrowserActivity extends ThemableBrowserActivity implements
         addsList.add("b195f8dd8ded45fe847ad89ed1d016da");
         addsList.add("8885941edfe343dfb0fcc350bbac5a61");
         //addsList.add("58ba90e111ac43819d94f4612b8c37f8"); nativo
-        addsListAdapter horizaontalAdapter = new addsListAdapter(this, false);
-        horizaontalAdapter.adds = addsList;
+        admobAdapterEx horizaontalAdapter = new admobAdapterEx();
+        horizaontalAdapter.IDsList = addsList;
         LinearLayoutManager layoutManagerHorizontal = new LinearLayoutManager(this);
         layoutManagerHorizontal.setOrientation(LinearLayoutManager.HORIZONTAL);
         this.horizaontalAddsList.setLayoutManager(layoutManagerHorizontal);
         this.horizaontalAddsList.setAdapter(horizaontalAdapter);
 
-        addsListAdapter VerticalAdapter = new addsListAdapter(this, true);
-        VerticalAdapter.adds = addsList;
+        admobAdapterEx VerticalAdapter = new admobAdapterEx();
+        VerticalAdapter.IDsList = addsList;
         LinearLayoutManager layoutManagerVertical = new LinearLayoutManager(this);
         layoutManagerVertical.setOrientation(LinearLayoutManager.VERTICAL);
         this.verticalAddsList.setLayoutManager(layoutManagerVertical);
@@ -895,8 +911,9 @@ public abstract class BrowserActivity extends ThemableBrowserActivity implements
                 newTab(null, true);
                 return true;
             case R.id.action_incognito:
-                startActivity(new Intent(this, IncognitoActivity.class));
-                overridePendingTransition(R.anim.slide_up_in, R.anim.fade_out_scale);
+                //TODO Incognito
+                //startActivity(new Intent(this, IncognitoActivity.class));
+                //overridePendingTransition(R.anim.slide_up_in, R.anim.fade_out_scale);
                 return true;
             case R.id.action_share:
                 new IntentUtils(this).shareUrl(currentUrl, currentView != null ? currentView.getTitle() : null);
@@ -1616,6 +1633,8 @@ public abstract class BrowserActivity extends ThemableBrowserActivity implements
             lp.width = LayoutParams.MATCH_PARENT;
             lp.height = 1000;
             this.mBrowserFrame.setLayoutParams(lp);
+            AdView adView = (AdView) findViewById(R.id.ad_browser_content);
+            adView.setVisibility(View.GONE);
         } else {
             this.verticalAddsList.setVisibility(View.GONE);
             this.horizaontalAddsList.setVisibility(View.GONE);
@@ -1626,8 +1645,12 @@ public abstract class BrowserActivity extends ThemableBrowserActivity implements
                 mToolbarLayout.setVisibility(View.VISIBLE);
                 if (url.contains("google.com")) {
                     setMargins(mBrowserFrame, 0, 0, 0, 0);
+                    AdView adView = (AdView) findViewById(R.id.ad_browser_content);
+                    adView.setVisibility(View.VISIBLE);
                 } else {
                     mBrowserFrame.setPadding(0, 0, 0, 0);
+                    AdView adView = (AdView) findViewById(R.id.ad_browser_content);
+                    adView.setVisibility(View.GONE);
                 }
             }
 

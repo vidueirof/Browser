@@ -6,6 +6,10 @@ android {
     compileSdkVersion project.targetSdkVersion
     buildToolsVersion project.buildToolsVersion
 
+    dexOptions {
+        javaMaxHeapSize "3g"
+    }
+
     defaultConfig {
         minSdkVersion project.minSdkVersion
         targetSdkVersion project.targetSdkVersion
