@@ -32,7 +32,10 @@
                     android:id="@+id/list_view"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:background="@color/black"/>
+                    android:background="@color/black" />
+
+                <include layout="@layout/history_item"
+                    android:id="@+id/history_item_activity_main"/>
 
                 <android.support.v7.widget.RecyclerView
                     android:id="@+id/horizontalList"
@@ -42,21 +45,71 @@
                     android:layout_marginRight="20dp"
                     android:layout_marginTop="-70dp"
                     android:background="@color/white"
-                    android:padding="0dp" />
+                    android:padding="0dp"
+                    android:visibility="gone" />
+
+                <include layout="@layout/search_interface" />
 
                 <android.support.v7.widget.RecyclerView
                     android:id="@+id/verticalList"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_gravity="bottom"
                     android:layout_marginLeft="20dp"
                     android:layout_marginRight="20dp"
-                    android:layout_marginTop="0dp"
-                    android:background="@color/white"
-                    android:padding="0dp"/>
+                    android:background="@color/gray_lighter"
+                    android:overScrollMode="never"
+                    android:paddingBottom="0dp"
+                    android:visibility="gone" />
 
-                <include layout="@layout/search_interface" />
+                <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                    xmlns:ads="http://schemas.android.com/apk/res-auto"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:gravity="center_horizontal"
+                    android:background="@color/gray_lighter">
 
-            </LinearLayout>
+                    <com.google.android.gms.ads.AdView
+                        android:id="@+id/ad_browser"
+                        android:layout_marginTop="5dp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:background="@color/gray_lighter"
+                        ads:adSize="BANNER"
+                        ads:adUnitId="ca-app-pub-7981205089259397/6042750162" />
+
+                    <com.google.android.gms.ads.AdView
+                        android:id="@+id/ad_browser2"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/ad_browser"
+                        android:layout_marginTop="5dp"
+                        android:background="@color/gray_lighter"
+                        ads:adSize="BANNER"
+                        ads:adUnitId="ca-app-pub-7981205089259397/1655121436" />
+
+                    <com.google.android.gms.ads.AdView
+                        android:id="@+id/ad_browser3"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/ad_browser2"
+                        android:layout_marginTop="5dp"
+                        android:background="@color/gray_lighter"
+                        ads:adSize="BANNER"
+                        ads:adUnitId="ca-app-pub-7981205089259397/7528650249" />
+
+                    <com.google.android.gms.ads.AdView
+                        android:id="@+id/ad_browser4"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/ad_browser3"
+                        android:layout_marginTop="5dp"
+                        android:background="@color/gray_lighter"
+                        ads:adSize="BANNER"
+                        ads:adUnitId="ca-app-pub-7981205089259397/6324994182" />
+
+                </RelativeLayout>
+        </LinearLayout>
 
             <FrameLayout
                 android:id="@+id/left_drawer"
@@ -66,7 +119,7 @@
                 android:background="?attr/drawerBackground"
                 android:fitsSystemWindows="true"
                 android:visibility="gone"
-                android:weightSum="1"/>
+                android:weightSum="1" />
 
             <FrameLayout
                 android:id="@+id/right_drawer"

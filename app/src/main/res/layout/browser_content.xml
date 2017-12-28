@@ -13,6 +13,7 @@
         android:layout_height="wrap_content"
         android:layout_gravity="bottom"
         android:background="@color/gray_lighter"
+        android:visibility="gone"
         android:padding="5dp"
         ads:adSize="BANNER"
         ads:adUnitId="ca-app-pub-7981205089259397/3311923894" />

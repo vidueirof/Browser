@@ -78,6 +78,7 @@ import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.TextView.OnEditorActionListener;
+import android.widget.Toast;
 import android.widget.VideoView;
 
 import com.anthonycr.bonsai.Completable;
@@ -89,11 +90,14 @@ import com.anthonycr.progress.AnimatedProgressBar;
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
 import com.google.android.gms.ads.MobileAds;
+import com.google.android.gms.vision.text.Line;
 import com.mopub.mobileads.MoPubView;
 
 import java.io.File;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -139,6 +143,7 @@ import acr.browser.lightning.view.LightningView;
 import acr.browser.lightning.view.SearchView;
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 
 public abstract class BrowserActivity extends ThemableBrowserActivity implements BrowserView, UIController, OnClickListener {
 
@@ -166,6 +171,10 @@ public abstract class BrowserActivity extends ThemableBrowserActivity implements
     AnimatedProgressBar mProgressBar;
     @BindView(R.id.search_bar)
     RelativeLayout mSearchBar;
+    @BindView(R.id.text_view_history_1)
+    TextView tvHistory1;
+    @BindView(R.id.image_view_history_1)
+    ImageView ivHistory1;
 
     @BindView(R.id.horizontalList)
     RecyclerView horizaontalAddsList;
@@ -240,6 +249,7 @@ public abstract class BrowserActivity extends ThemableBrowserActivity implements
     private TabsView mTabsView;
     private BookmarksView mBookmarksView;
 
+    private String historyUrl = "";
     // Proxy
     @Inject
     ProxyUtils mProxyUtils;
@@ -267,12 +277,14 @@ public abstract class BrowserActivity extends ThemableBrowserActivity implements
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         BrowserApp.getAppComponent().inject(this);
+        hideActionBar();
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
 
         //MobileAds.initialize(getApplicationContext(), "ca-app-pub-7981205089259397~2601477458"); ANDA 1 VIEJO
         //MobileAds.initialize(getApplicationContext(), "ca-app-pub-2922446936126419~6985628333"); // RAFA
-        MobileAds.initialize(getApplicationContext(), "ca-app-pub-7981205089259397~4163580331"); // Test 2 mio
+        //MobileAds.initialize(getApplicationContext(), "ca-app-pub-7981205089259397~4163580331"); // Test 2 mio
+
         //moPubView = (MoPubView) findViewById(R.id.adview);
         //moPubView.setAdUnitId("a9ba1505f6354a5890e4102ebf8bcff8"); // Enter your Ad Unit ID from www.mopub.com
         //moPubView.loadAd();
@@ -299,10 +311,8 @@ public abstract class BrowserActivity extends ThemableBrowserActivity implements
         }*/
 
         List<String> addsList = new ArrayList<String>();
-        for (int i = 1; i < 11; i++)
+        for (int i = 1; i < 6; i++)
             addsList.add("a9ba1505f6354a5890e4102ebf8bcff8");
-        addsList.add("b195f8dd8ded45fe847ad89ed1d016da");
-        addsList.add("8885941edfe343dfb0fcc350bbac5a61");
         //addsList.add("58ba90e111ac43819d94f4612b8c37f8"); nativo
         admobAdapterEx horizaontalAdapter = new admobAdapterEx();
         horizaontalAdapter.IDsList = addsList;
@@ -318,11 +328,66 @@ public abstract class BrowserActivity extends ThemableBrowserActivity implements
         this.verticalAddsList.setLayoutManager(layoutManagerVertical);
         this.verticalAddsList.setAdapter(VerticalAdapter);
 
+        MobileAds.initialize(getApplicationContext(), "ca-app-pub-7981205089259397~4163580331");
+        AdView adView1 = (AdView) findViewById(R.id.ad_browser);
+        AdRequest adRequest = new AdRequest.Builder().build();
+        adView1.loadAd(adRequest);
+
+        MobileAds.initialize(getApplicationContext(), "ca-app-pub-7981205089259397~4163580331");
+        AdView adView2 = (AdView) findViewById(R.id.ad_browser2);
+        AdRequest adRequest2 = new AdRequest.Builder().build();
+        adView2.loadAd(adRequest2);
+
+        MobileAds.initialize(getApplicationContext(), "ca-app-pub-7981205089259397~4163580331");
+        AdView adView3 = (AdView) findViewById(R.id.ad_browser3);
+        AdRequest adRequest3 = new AdRequest.Builder().build();
+        adView3.loadAd(adRequest3);
+
+        MobileAds.initialize(getApplicationContext(), "ca-app-pub-7981205089259397~4163580331");
+        AdView adView4 = (AdView) findViewById(R.id.ad_browser4);
+        //AdRequest adRequest2 = new AdRequest.Builder().build();
+        adView4.loadAd(adRequest2);
+/*
+        MobileAds.initialize(getApplicationContext(), "ca-app-pub-7981205089259397~4163580331");
+        AdView adView5 = (AdView) findViewById(R.id.ad_browser5);
+        //AdRequest adRequest2 = new AdRequest.Builder().build();
+        adView5.loadAd(adRequest2);
+*/
         mTabsManager = new TabsManager();
-        mPresenter = new BrowserPresenter(this, isIncognito());
+        //mPresenter = new BrowserPresenter(this, isIncognito());
+        mPresenter = new BrowserPresenter(this, false);
 
         initialize(savedInstanceState);
 
+    }
+
+    public List<HistoryItem> getHistoryItems(final int cantItemsToGet) {
+
+        final List<HistoryItem> result = new ArrayList<>();
+
+        mHistoryModel.lastHundredVisitedHistoryItems()
+                .subscribe(new SingleOnSubscribe<List<HistoryItem>>() {
+                    @Override
+                    public void onItem(@Nullable List<HistoryItem> item) {
+
+                        Preconditions.checkNonNull(item);
+                        HistoryItem helper;
+                        Iterator<HistoryItem> it = item.iterator();
+                        while (it.hasNext() && result.size() <= cantItemsToGet) {
+                            helper = it.next();
+                            result.add(helper);
+                        }
+                    }
+                });
+        return result;
+    }
+
+    @OnClick(R.id.history_item_activity_main)
+    public void goToHistoryElementClicked() {
+        // toast to test the url
+        //Toast.makeText(this, historyUrl, Toast.LENGTH_SHORT).show();
+        if (!TextUtils.isEmpty(historyUrl))
+            mPresenter.loadUrlInCurrentView(historyUrl);
     }
 
     private synchronized void initialize(Bundle savedInstanceState) {
@@ -1511,6 +1576,13 @@ public abstract class BrowserActivity extends ThemableBrowserActivity implements
         } else {
             putToolbarInRoot();
         }
+
+        List<HistoryItem> historyItems = getHistoryItems(1);
+        if (historyItems.size() > 0) {
+            tvHistory1.setText(historyItems.get(0).getTitle());
+            ivHistory1.setImageResource(historyItems.get(0).getImageId());
+            historyUrl = historyItems.get(0).getUrl();
+        }
     }
 
     /**
@@ -1627,15 +1699,19 @@ public abstract class BrowserActivity extends ThemableBrowserActivity implements
             mToolbarLayout.setVisibility(View.GONE);
             hideActionBar();
             hideActionBar();
-            this.verticalAddsList.setVisibility(View.VISIBLE);
-            this.horizaontalAddsList.setVisibility(View.VISIBLE);
+            //this.verticalAddsList.setVisibility(View.VISIBLE);
+            //this.horizaontalAddsList.setVisibility(View.VISIBLE);
             LayoutParams lp = this.mBrowserFrame.getLayoutParams();
             lp.width = LayoutParams.MATCH_PARENT;
             lp.height = 1000;
             this.mBrowserFrame.setLayoutParams(lp);
             AdView adView = (AdView) findViewById(R.id.ad_browser_content);
             adView.setVisibility(View.GONE);
+            LinearLayout historyItem = (LinearLayout) findViewById(R.id.history_item_activity_main);
+            historyItem.setVisibility(View.VISIBLE);
         } else {
+            LinearLayout historyItem = (LinearLayout) findViewById(R.id.history_item_activity_main);
+            historyItem.setVisibility(View.INVISIBLE);
             this.verticalAddsList.setVisibility(View.GONE);
             this.horizaontalAddsList.setVisibility(View.GONE);
             LayoutParams lp = this.mBrowserFrame.getLayoutParams();
@@ -1704,8 +1780,9 @@ public abstract class BrowserActivity extends ThemableBrowserActivity implements
      * previously searched URLs
      */
     private void initializeSearchSuggestions(final AutoCompleteTextView getUrl) {
-
-        mSuggestionsAdapter = new SuggestionsAdapter(this, mDarkTheme, isIncognito());
+        //Todo Incognito
+        //mSuggestionsAdapter = new SuggestionsAdapter(this, mDarkTheme, isIncognito());
+        mSuggestionsAdapter = new SuggestionsAdapter(this, mDarkTheme, false);
 
         getUrl.setThreshold(1);
         getUrl.setDropDownWidth(-1);
@@ -2321,6 +2398,7 @@ public abstract class BrowserActivity extends ThemableBrowserActivity implements
             case BACKGROUND:
                 newTab(url, false);
                 break;
+            //TODO incognito
             case INCOGNITO:
                 Intent intent = new Intent(BrowserActivity.this, IncognitoActivity.class);
                 intent.setData(Uri.parse(url));
