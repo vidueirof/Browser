@@ -16,6 +16,7 @@
         android:visibility="gone"
         android:padding="5dp"
         ads:adSize="BANNER"
-        ads:adUnitId="ca-app-pub-7981205089259397/3311923894" />
+        ads:adUnitId="ca-app-pub-5561832559163543/3576531598" />
+    <!-- WORKING -> ca-app-pub-7981205089259397/3311923894-->
 
 </FrameLayout>

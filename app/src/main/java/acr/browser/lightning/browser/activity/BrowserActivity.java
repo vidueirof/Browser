@@ -221,6 +221,7 @@ public abstract class BrowserActivity extends ThemableBrowserActivity implements
     private String mSearchText;
     private String mUntitledTitle;
     private String mCameraPhotoPath;
+    private static boolean imInHomeScreen = true;
 
     // The singleton BookmarkManager
     @Inject
@@ -328,22 +329,33 @@ public abstract class BrowserActivity extends ThemableBrowserActivity implements
         this.verticalAddsList.setLayoutManager(layoutManagerVertical);
         this.verticalAddsList.setAdapter(VerticalAdapter);
 
-        MobileAds.initialize(getApplicationContext(), "ca-app-pub-7981205089259397~4163580331");
-        AdView adView1 = (AdView) findViewById(R.id.ad_browser);
+        // id de app que funciona ca-app-pub-7981205089259397~4163580331
+        // id de app nueva q quiero hacer funcionar ca-app-pub-5561832559163543~4377820834
+        /**
+         * Ads que funcionan
+         *
+         * ca-app-pub-7981205089259397/1655121436
+         * ca-app-pub-7981205089259397/7528650249
+         * ca-app-pub-7981205089259397/6324994182
+         * ca-app-pub-7981205089259397/6042750162
+         *
+         */
+        MobileAds.initialize(getApplicationContext(), "ca-app-pub-5561832559163543~4377820834");
+        AdView adView1 = (AdView) findViewById(R.id.ad_browser1);
         AdRequest adRequest = new AdRequest.Builder().build();
         adView1.loadAd(adRequest);
 
-        MobileAds.initialize(getApplicationContext(), "ca-app-pub-7981205089259397~4163580331");
+        MobileAds.initialize(getApplicationContext(), "ca-app-pub-5561832559163543~4377820834");
         AdView adView2 = (AdView) findViewById(R.id.ad_browser2);
         AdRequest adRequest2 = new AdRequest.Builder().build();
         adView2.loadAd(adRequest2);
 
-        MobileAds.initialize(getApplicationContext(), "ca-app-pub-7981205089259397~4163580331");
+        MobileAds.initialize(getApplicationContext(), "ca-app-pub-5561832559163543~4377820834");
         AdView adView3 = (AdView) findViewById(R.id.ad_browser3);
         AdRequest adRequest3 = new AdRequest.Builder().build();
         adView3.loadAd(adRequest3);
 
-        MobileAds.initialize(getApplicationContext(), "ca-app-pub-7981205089259397~4163580331");
+        MobileAds.initialize(getApplicationContext(), "ca-app-pub-5561832559163543~4377820834");
         AdView adView4 = (AdView) findViewById(R.id.ad_browser4);
         //AdRequest adRequest2 = new AdRequest.Builder().build();
         adView4.loadAd(adRequest2);
@@ -975,11 +987,6 @@ public abstract class BrowserActivity extends ThemableBrowserActivity implements
             case R.id.action_new_tab:
                 newTab(null, true);
                 return true;
-            case R.id.action_incognito:
-                //TODO Incognito
-                //startActivity(new Intent(this, IncognitoActivity.class));
-                //overridePendingTransition(R.anim.slide_up_in, R.anim.fade_out_scale);
-                return true;
             case R.id.action_share:
                 new IntentUtils(this).shareUrl(currentUrl, currentView != null ? currentView.getTitle() : null);
                 return true;
@@ -1525,6 +1532,9 @@ public abstract class BrowserActivity extends ThemableBrowserActivity implements
     protected void onStop() {
         super.onStop();
         mProxyUtils.onStop();
+        if (imInHomeScreen){
+            hideActionBarPro();
+        }
     }
 
     @Override
@@ -1553,6 +1563,9 @@ public abstract class BrowserActivity extends ThemableBrowserActivity implements
     @Override
     protected void onResume() {
         super.onResume();
+        if (imInHomeScreen){
+            hideActionBarPro();
+        }
         Log.d(TAG, "onResume");
         if (mSwapBookmarksAndTabs != mPreferences.getBookmarksAndTabsSwapped()) {
             restart();
@@ -1696,20 +1709,14 @@ public abstract class BrowserActivity extends ThemableBrowserActivity implements
         isHomePage = mBookmarksView.handleUpdatedUrl(url);
 
         if (isHomePage) {
-            mToolbarLayout.setVisibility(View.GONE);
-            hideActionBar();
-            hideActionBar();
-            //this.verticalAddsList.setVisibility(View.VISIBLE);
-            //this.horizaontalAddsList.setVisibility(View.VISIBLE);
-            LayoutParams lp = this.mBrowserFrame.getLayoutParams();
-            lp.width = LayoutParams.MATCH_PARENT;
-            lp.height = 1000;
-            this.mBrowserFrame.setLayoutParams(lp);
-            AdView adView = (AdView) findViewById(R.id.ad_browser_content);
-            adView.setVisibility(View.GONE);
-            LinearLayout historyItem = (LinearLayout) findViewById(R.id.history_item_activity_main);
-            historyItem.setVisibility(View.VISIBLE);
+            imInHomeScreen = true;
+            hideActionBarPro();
         } else {
+            mToolbar.setVisibility(View.VISIBLE);
+            mSearchBackground.setVisibility(View.VISIBLE);
+            mSearch.setVisibility(View.VISIBLE);
+            mToolbarLayout.setVisibility(View.VISIBLE);
+            imInHomeScreen = false;
             LinearLayout historyItem = (LinearLayout) findViewById(R.id.history_item_activity_main);
             historyItem.setVisibility(View.INVISIBLE);
             this.verticalAddsList.setVisibility(View.GONE);
@@ -1736,6 +1743,24 @@ public abstract class BrowserActivity extends ThemableBrowserActivity implements
         String currentTitle = currentTab != null ? currentTab.getTitle() : null;
 
         mSearch.setText(mSearchBoxModel.getDisplayContent(url, currentTitle, isLoading));
+    }
+
+    private void hideActionBarPro() {
+        mToolbar.setVisibility(View.GONE);
+        mSearchBackground.setVisibility(View.GONE);
+        mSearch.setVisibility(View.GONE);
+        mToolbarLayout.setVisibility(View.GONE);
+        hideActionBar();
+        //this.verticalAddsList.setVisibility(View.VISIBLE);
+        //this.horizaontalAddsList.setVisibility(View.VISIBLE);
+        LayoutParams lp = this.mBrowserFrame.getLayoutParams();
+        lp.width = LayoutParams.MATCH_PARENT;
+        lp.height = 1000;
+        this.mBrowserFrame.setLayoutParams(lp);
+        AdView adView = (AdView) findViewById(R.id.ad_browser_content);
+        adView.setVisibility(View.GONE);
+        LinearLayout historyItem = (LinearLayout) findViewById(R.id.history_item_activity_main);
+        historyItem.setVisibility(View.VISIBLE);
     }
 
     public static void setMargins(View v, int l, int t, int r, int b) {

@@ -46,7 +46,7 @@ android {
 
         lightningLite {
             buildConfigField "boolean", "FULL_VERSION", "Boolean.parseBoolean(\"false\")"
-            applicationId "acr.browser.barebones"
+            applicationId "acr.browser.sonar"
             versionCode project.versionCode_lite
         }
     }
@@ -90,8 +90,8 @@ dependencies {
     compile 'com.google.ads.mediation:mopub:4.17.0.0'
 
     //Google play services
-    compile 'com.google.android.gms:play-services:11.4.2'
-    compile 'com.google.android.gms:play-services-ads:11.4.2'
+    compile 'com.google.android.gms:play-services:11.6.0'
+    compile 'com.google.android.gms:play-services-ads:11.6.0'
 
     // support libraries
     def supportLibVersion = '25.4.0'
