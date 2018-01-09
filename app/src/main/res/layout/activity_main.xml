@@ -74,7 +74,7 @@
                         android:layout_marginTop="@dimen/distance_between_ads"
                         android:background="@color/gray_lighter"
                         ads:adSize="BANNER"
-                        ads:adUnitId="ca-app-pub-7981205089259397/6324994182" />
+                        ads:adUnitId="ca-app-pub-5561832559163543/4950280878" />
                     <!--ca-app-pub-5561832559163543/4950280878-->
                     <com.google.android.gms.ads.AdView
                         android:id="@+id/ad_browser2"
@@ -84,7 +84,7 @@
                         android:layout_marginTop="@dimen/distance_between_ads"
                         android:background="@color/gray_lighter"
                         ads:adSize="BANNER"
-                        ads:adUnitId="ca-app-pub-7981205089259397/6324994182" />
+                        ads:adUnitId="ca-app-pub-5561832559163543/9795413443" />
                     <!--ca-app-pub-5561832559163543/9795413443-->
                     <com.google.android.gms.ads.AdView
                         android:id="@+id/ad_browser3"
@@ -94,7 +94,7 @@
                         android:layout_marginTop="@dimen/distance_between_ads"
                         android:background="@color/gray_lighter"
                         ads:adSize="BANNER"
-                        ads:adUnitId="ca-app-pub-7981205089259397/6324994182" />
+                        ads:adUnitId="ca-app-pub-5561832559163543/5272756643" />
                     <!--ca-app-pub-5561832559163543/5272756643-->
                     <com.google.android.gms.ads.AdView
                         android:id="@+id/ad_browser4"
@@ -104,7 +104,7 @@
                         android:layout_marginTop="@dimen/distance_between_ads"
                         android:background="@color/gray_lighter"
                         ads:adSize="BANNER"
-                        ads:adUnitId="ca-app-pub-7981205089259397/6324994182" />
+                        ads:adUnitId="ca-app-pub-5561832559163543/4351515071" />
                     <!-- ca-app-pub-7981205089259397/6324994182-->
                 </RelativeLayout>
 
@@ -121,7 +121,7 @@
                 android:layout_gravity="start"
                 android:background="?attr/drawerBackground"
                 android:fitsSystemWindows="true"
-                android:visibility="gone"
+                android:visibility="visible"
                 android:weightSum="1" />
 
             <FrameLayout
