@@ -10,13 +10,13 @@
     <com.google.android.gms.ads.AdView
         android:id="@+id/ad_browser_content"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="25dp"
+        android:layout_height="65dp"
+        android:paddingTop="1dp"
+        android:paddingBottom="1dp"
         android:layout_gravity="bottom"
         android:background="@color/gray_lighter"
         android:visibility="gone"
         ads:adSize="BANNER"
         ads:adUnitId="ca-app-pub-5561832559163543/3576531598" />
-    <!-- WORKING -> ca-app-pub-7981205089259397/3311923894-->
 
 </FrameLayout>

@@ -176,11 +176,6 @@ public abstract class BrowserActivity extends ThemableBrowserActivity implements
     @BindView(R.id.image_view_history_1)
     ImageView ivHistory1;
 
-    @BindView(R.id.horizontalList)
-    RecyclerView horizaontalAddsList;
-    @BindView(R.id.verticalList)
-    RecyclerView verticalAddsList;
-
     // Toolbar Views
     @BindView(R.id.toolbar)
     Toolbar mToolbar;
@@ -282,53 +277,6 @@ public abstract class BrowserActivity extends ThemableBrowserActivity implements
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
 
-        //MobileAds.initialize(getApplicationContext(), "ca-app-pub-7981205089259397~2601477458"); ANDA 1 VIEJO
-        //MobileAds.initialize(getApplicationContext(), "ca-app-pub-2922446936126419~6985628333"); // RAFA
-        //MobileAds.initialize(getApplicationContext(), "ca-app-pub-7981205089259397~4163580331"); // Test 2 mio
-
-        //moPubView = (MoPubView) findViewById(R.id.adview);
-        //moPubView.setAdUnitId("a9ba1505f6354a5890e4102ebf8bcff8"); // Enter your Ad Unit ID from www.mopub.com
-        //moPubView.loadAd();
-        //b195f8dd8ded45fe847ad89ed1d016da
-
-
-        //moPubView.setAdUnitId("a9ba1505f6354a5890e4102ebf8bcff8"); //BANNER ROCK AND ROLL
-        //moPubView.setAdUnitId("b195f8dd8ded45fe847ad89ed1d016da"); // BANNER DE PRUEBA
-
-        /**
-         moPubView = (MoPubView) findViewById(R.id.adviewCustom);
-         moPubView.setAdUnitId("58ba90e111ac43819d94f4612b8c37f8");
-         moPubView.loadAd();
-         */
-/*
-        List<String> ids = new ArrayList<String>();
-        ids.add("ca-app-pub-7981205089259397/3311923894");
-        ListView list_view = (ListView) findViewById(R.id.list_view);
-        AdView adView = (AdView) findViewById(R.id.ad_browser);
-        list_view.addView(adView);
-        for (int i =0;i<ids.size();i++){
-            AdRequest adRequest = new AdRequest.Builder().build();
-            list_view.getview.loadAd(adRequest);
-        }*/
-
-        List<String> addsList = new ArrayList<String>();
-        for (int i = 1; i < 6; i++)
-            addsList.add("a9ba1505f6354a5890e4102ebf8bcff8");
-        //addsList.add("58ba90e111ac43819d94f4612b8c37f8"); nativo
-        admobAdapterEx horizaontalAdapter = new admobAdapterEx();
-        horizaontalAdapter.IDsList = addsList;
-        LinearLayoutManager layoutManagerHorizontal = new LinearLayoutManager(this);
-        layoutManagerHorizontal.setOrientation(LinearLayoutManager.HORIZONTAL);
-        this.horizaontalAddsList.setLayoutManager(layoutManagerHorizontal);
-        this.horizaontalAddsList.setAdapter(horizaontalAdapter);
-
-        admobAdapterEx VerticalAdapter = new admobAdapterEx();
-        VerticalAdapter.IDsList = addsList;
-        LinearLayoutManager layoutManagerVertical = new LinearLayoutManager(this);
-        layoutManagerVertical.setOrientation(LinearLayoutManager.VERTICAL);
-        this.verticalAddsList.setLayoutManager(layoutManagerVertical);
-        this.verticalAddsList.setAdapter(VerticalAdapter);
-
         // id de app que funciona ca-app-pub-7981205089259397~4163580331
         // id de app nueva q quiero hacer funcionar ca-app-pub-5561832559163543~4377820834
         /**
@@ -359,12 +307,7 @@ public abstract class BrowserActivity extends ThemableBrowserActivity implements
         AdView adView4 = (AdView) findViewById(R.id.ad_browser4);
         //AdRequest adRequest2 = new AdRequest.Builder().build();
         adView4.loadAd(adRequest2);
-/*
-        MobileAds.initialize(getApplicationContext(), "ca-app-pub-7981205089259397~4163580331");
-        AdView adView5 = (AdView) findViewById(R.id.ad_browser5);
-        //AdRequest adRequest2 = new AdRequest.Builder().build();
-        adView5.loadAd(adRequest2);
-*/
+
         mTabsManager = new TabsManager();
         //mPresenter = new BrowserPresenter(this, isIncognito());
         mPresenter = new BrowserPresenter(this, false);
@@ -1707,11 +1650,13 @@ public abstract class BrowserActivity extends ThemableBrowserActivity implements
 
         boolean isHomePage;
         isHomePage = mBookmarksView.handleUpdatedUrl(url);
-
+        RelativeLayout relativeLayoutAds = (RelativeLayout) findViewById(R.id.relative_ads);
         if (isHomePage) {
             imInHomeScreen = true;
             hideActionBarPro();
+            relativeLayoutAds.setVisibility(View.VISIBLE);
         } else {
+            relativeLayoutAds.setVisibility(View.GONE);
             mToolbar.setVisibility(View.VISIBLE);
             mSearchBackground.setVisibility(View.VISIBLE);
             mSearch.setVisibility(View.VISIBLE);
@@ -1719,8 +1664,6 @@ public abstract class BrowserActivity extends ThemableBrowserActivity implements
             imInHomeScreen = false;
             LinearLayout historyItem = (LinearLayout) findViewById(R.id.history_item_activity_main);
             historyItem.setVisibility(View.INVISIBLE);
-            this.verticalAddsList.setVisibility(View.GONE);
-            this.horizaontalAddsList.setVisibility(View.GONE);
             LayoutParams lp = this.mBrowserFrame.getLayoutParams();
             lp.width = LayoutParams.MATCH_PARENT;
             lp.height = LayoutParams.MATCH_PARENT;
@@ -1847,8 +1790,6 @@ public abstract class BrowserActivity extends ThemableBrowserActivity implements
      * function that opens the HTML history page in the browser
      */
     private void openHistory() {
-        this.verticalAddsList.setVisibility(View.GONE);
-        this.horizaontalAddsList.setVisibility(View.GONE);
         new HistoryPage().getHistoryPage()
                 .subscribeOn(Schedulers.io())
                 .observeOn(Schedulers.main())
