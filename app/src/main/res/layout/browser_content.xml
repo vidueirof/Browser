@@ -1,9 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:ads="http://schemas.android.com/apk/res-auto"
     android:id="@+id/content_frame"
-    xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="0dp"
-    android:layout_weight="1"
-    android:background="@color/primary_color"
-    android:clipChildren="true"/>
+    android:layout_height="match_parent"
+    android:background="@color/gray_lighter"
+    android:clipChildren="true">
+
+    <com.google.android.gms.ads.AdView
+        android:id="@+id/ad_browser_content"
+        android:layout_width="match_parent"
+        android:layout_height="65dp"
+        android:paddingTop="1dp"
+        android:paddingBottom="1dp"
+        android:layout_gravity="bottom"
+        android:background="@color/gray_lighter"
+        android:visibility="gone"
+        ads:adSize="BANNER"
+        ads:adUnitId="ca-app-pub-5561832559163543/3576531598" />
+
+</FrameLayout>

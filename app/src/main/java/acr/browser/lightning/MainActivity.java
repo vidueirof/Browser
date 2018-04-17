@@ -18,6 +18,7 @@ import acr.browser.lightning.browser.activity.BrowserActivity;
 @SuppressWarnings("deprecation")
 public class MainActivity extends BrowserActivity {
 
+
     @NonNull
     @Override
     public Completable updateCookiePreference() {
@@ -34,10 +35,9 @@ public class MainActivity extends BrowserActivity {
         });
     }
 
-    
     @Override
     public boolean onCreateOptionsMenu(@NonNull Menu menu) {
-        getMenuInflater().inflate(R.menu.main, menu);
+        getMenuInflater().inflate(acr.browser.lightning.R.menu.main, menu);
         return super.onCreateOptionsMenu(menu);
     }
 
@@ -84,9 +84,9 @@ public class MainActivity extends BrowserActivity {
             switch (event.getKeyCode()) {
                 case KeyEvent.KEYCODE_P:
                     // Open a new private window
-                    if(event.isShiftPressed()) {
+                    if (event.isShiftPressed()) {
                         startActivity(new Intent(this, IncognitoActivity.class));
-                        overridePendingTransition(R.anim.slide_up_in, R.anim.fade_out_scale);
+                        overridePendingTransition(acr.browser.lightning.R.anim.slide_up_in, acr.browser.lightning.R.anim.fade_out_scale);
                         return true;
                     }
                     break;

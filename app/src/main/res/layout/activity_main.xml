@@ -1,11 +1,14 @@
-<!-- Copyright 2014 ACR Development -->
-<android.support.design.widget.CoordinatorLayout
-    android:id="@+id/coordinator_layout"
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context=".browser.activity.BrowserActivity">
+    android:layout_height="match_parent">
+
+    <android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:id="@+id/coordinator_layout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context=".browser.activity.BrowserActivity">
 
         <android.support.v4.widget.DrawerLayout
             android:id="@+id/drawer_layout"
@@ -17,13 +20,68 @@
                 android:id="@+id/ui_layout"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                android:background="@color/gray_lighter"
                 android:orientation="vertical">
 
-                <include layout="@layout/toolbar"/>
+                <include layout="@layout/toolbar" />
 
-                <include layout="@layout/browser_content"/>
+                <include layout="@layout/browser_content" />
 
-                <include layout="@layout/search_interface"/>
+                <include layout="@layout/search_interface" />
+
+                <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                    xmlns:ads="http://schemas.android.com/apk/res-auto"
+                    android:id="@+id/relative_ads"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginTop="-40dp"
+                    android:background="@color/gray_lighter"
+                    android:gravity="center_horizontal">
+
+                    <com.google.android.gms.ads.AdView
+                        android:id="@+id/ad_browser1"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:background="@color/gray_lighter"
+                        ads:adSize="BANNER"
+                        ads:adUnitId="ca-app-pub-5561832559163543/4950280878" />
+
+                    <com.google.android.gms.ads.AdView
+                        android:id="@+id/ad_browser2"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/ad_browser1"
+                        android:layout_marginTop="@dimen/distance_between_ads"
+                        android:background="@color/gray_lighter"
+                        ads:adSize="BANNER"
+                        ads:adUnitId="ca-app-pub-5561832559163543/9795413443" />
+
+                    <com.google.android.gms.ads.AdView
+                        android:id="@+id/ad_browser3"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/ad_browser2"
+                        android:layout_marginTop="@dimen/distance_between_ads"
+                        android:background="@color/gray_lighter"
+                        ads:adSize="BANNER"
+                        ads:adUnitId="ca-app-pub-5561832559163543/5272756643" />
+
+                    <com.google.android.gms.ads.AdView
+                        android:id="@+id/ad_browser4"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/ad_browser3"
+                        android:layout_marginTop="@dimen/distance_between_ads"
+                        android:background="@color/gray_lighter"
+                        ads:adSize="BANNER"
+                        ads:adUnitId="ca-app-pub-5561832559163543/4351515071" />
+
+                </RelativeLayout>
+
+                <include
+                    android:id="@+id/history_item_activity_main"
+                    layout="@layout/history_item" />
+
             </LinearLayout>
 
             <FrameLayout
@@ -33,7 +91,8 @@
                 android:layout_gravity="start"
                 android:background="?attr/drawerBackground"
                 android:fitsSystemWindows="true"
-                android:weightSum="1"/>
+                android:visibility="visible"
+                android:weightSum="1" />
 
             <FrameLayout
                 android:id="@+id/right_drawer"
@@ -42,8 +101,12 @@
                 android:layout_gravity="end"
                 android:background="?attr/drawerBackground"
                 android:fitsSystemWindows="true"
-                android:weightSum="1"/>
+                android:visibility="gone"
+                android:weightSum="1" />
 
         </android.support.v4.widget.DrawerLayout>
 
-</android.support.design.widget.CoordinatorLayout>
+
+    </android.support.design.widget.CoordinatorLayout>
+
+</RelativeLayout>

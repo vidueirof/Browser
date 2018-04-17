@@ -12,9 +12,16 @@ android:
   licenses:
     - 'android-sdk-license-.+'
     - '.*intel.+'
+    - 'android-sdk-preview-license-.+'
+    - 'google-gdk-license-.+'
+    - '.+'
 before_install:
   - chmod +x gradlew
   - git submodule update --init --recursive
+  - mkdir "$ANDROID_HOME/licenses" || true
+  # Added cuz Travis doesn't accept license agreements of ConstraintLayout.
+  # To fix it, we are copying the licenses that come with the SDK to Travis's directory.
+  - cp ./android-sdk-licenses/* "$ANDROID_HOME/licenses/"
 install:
   - ./gradlew
 script:

@@ -35,7 +35,7 @@ public class IncognitoActivity extends BrowserActivity {
 
     @Override
     public boolean onCreateOptionsMenu(@NonNull Menu menu) {
-        getMenuInflater().inflate(R.menu.incognito, menu);
+        getMenuInflater().inflate(acr.browser.lightning.R.menu.incognito, menu);
         return super.onCreateOptionsMenu(menu);
     }
 
